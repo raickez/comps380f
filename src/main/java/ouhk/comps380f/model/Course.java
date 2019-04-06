@@ -4,11 +4,11 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Map;
 
-public class Ticket {
+public class Course {
 
     private long id;
-    private String customerName;
-    private String subject;
+    private String courseTitle;
+    private String lectures;
     private String body;
     private Map<String, Attachment> attachments = new Hashtable<>();
 
@@ -20,20 +20,20 @@ public class Ticket {
         this.id = id;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public String getCourseTitle() {
+        return courseTitle;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setCourseTitle(String courseTitle) {
+        this.courseTitle = courseTitle;
     }
 
-    public String getSubject() {
-        return subject;
+    public String getLectures() {
+        return lectures;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setLectures(String lectures) {
+        this.lectures = lectures;
     }
 
     public String getBody() {

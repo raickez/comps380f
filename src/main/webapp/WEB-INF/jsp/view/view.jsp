@@ -4,15 +4,14 @@
         <title>Course Material Page</title>
     </head>
     <body>
-        <!--<h2>Ticket #${ticketId}: <c:out value="${ticket.subject}" /></h2>
-        <i>Customer Name - <c:out value="${ticket.customerName}" /></i><br /><br />-->
-        <h2>Course Title: <c:out value="${ticket.customerName}"/></h2>
-        <!--<c:out value="${ticket.body}" /><br /><br />-->
-        <c:if test="${ticket.numberOfAttachments > 0}">
+        <h2>Course Title: <c:out value="${course.courseTitle}"/></h2>
+        <p>Lectures: <c:out value="${course.lectures}"/></p>
+        <!--<c:out value="${course.body}" /><br /><br />-->
+        <c:if test="${course.numberOfAttachments > 0}">
             Course Materials:
-            <c:forEach items="${ticket.attachments}" var="attachment" varStatus="status">
+            <c:forEach items="${course.attachments}" var="attachment" varStatus="status">
                 <c:if test="${!status.first}">, </c:if>
-                <a href="<c:url value="/ticket/${ticketId}/attachment/${attachment.name}" />">
+                <a href="<c:url value="/course/${courseId}/attachment/${attachment.name}" />">
                     <c:out value="${attachment.name}" /></a>
             </c:forEach><br /><br />
         </c:if>
@@ -26,6 +25,8 @@
                     <td>comments test</td>
                 </tr>
             </table>
-        <a href="<c:url value="/ticket" />">Return to list tickets</a>
+            
+            
+        <a href="<c:url value="/course" />">Return to list courses</a>
     </body>
 </html>

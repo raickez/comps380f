@@ -14,48 +14,48 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 import ouhk.comps380f.model.Attachment;
-import ouhk.comps380f.model.Ticket;
+import ouhk.comps380f.model.Course;
 import ouhk.comps380f.view.DownloadingView;
 
 @Controller
-@RequestMapping("ticket")
-public class TicketController {
+@RequestMapping("course")
+public class CourseController {
 
-    private volatile long TICKET_ID_SEQUENCE = 1;
-    private Map<Long, Ticket> ticketDatabase = new Hashtable<>();
+    private volatile long COURSE_ID_SEQUENCE = 1;
+    private Map<Long, Course> courseDatabase = new Hashtable<>();
 
     @RequestMapping(value = {"", "list"}, method = RequestMethod.GET)
     public String list(ModelMap model) {
-        model.addAttribute("ticketDatabase", ticketDatabase);
+        model.addAttribute("courseDatabase", courseDatabase);
         return "list";
     }
 
     @RequestMapping(value = "create", method = RequestMethod.GET)
     public ModelAndView create() {
-        return new ModelAndView("add", "ticketForm", new Form());
+        return new ModelAndView("add", "courseForm", new Form());
     }
 
     public static class Form {
 
-        private String customerName;
-        private String subject;
+        private String courseTitle;
+        private String lectures;
         private String body;
         private List<MultipartFile> attachments;
 
-        public String getCustomerName() {
-            return customerName;
+        public String getCourseTitle() {
+            return courseTitle;
         }
 
-        public void setCustomerName(String customerName) {
-            this.customerName = customerName;
+        public void setCourseTitle(String courseTitle) {
+            this.courseTitle = courseTitle;
         }
 
-        public String getSubject() {
-            return subject;
+        public String getLectures() {
+            return lectures;
         }
 
-        public void setSubject(String subject) {
-            this.subject = subject;
+        public void setLectures(String lectures) {
+            this.lectures = lectures;
         }
 
         public String getBody() {
@@ -78,11 +78,11 @@ public class TicketController {
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public View create(Form form) throws IOException {
-        Ticket ticket = new Ticket();
-        ticket.setId(this.getNextTicketId());
-        ticket.setCustomerName(form.getCustomerName());
-        ticket.setSubject(form.getSubject());
-        ticket.setBody(form.getBody());
+        Course course = new Course();
+        course.setId(this.getNextCourseId());
+        course.setCourseTitle(form.getCourseTitle());
+        course.setLectures(form.getLectures());
+        course.setBody(form.getBody());
 
         for (MultipartFile filePart : form.getAttachments()) {
             Attachment attachment = new Attachment();
@@ -91,44 +91,44 @@ public class TicketController {
             attachment.setContents(filePart.getBytes());
             if (attachment.getName() != null && attachment.getName().length() > 0
                     && attachment.getContents() != null && attachment.getContents().length > 0) {
-                ticket.addAttachment(attachment);
+                course.addAttachment(attachment);
             }
         }
-        this.ticketDatabase.put(ticket.getId(), ticket);
-        return new RedirectView("/ticket/view/" + ticket.getId(), true);
+        this.courseDatabase.put(course.getId(), course);
+        return new RedirectView("/course/view/" + course.getId(), true);
     }
 
-    private synchronized long getNextTicketId() {
-        return this.TICKET_ID_SEQUENCE++;
+    private synchronized long getNextCourseId() {
+        return this.COURSE_ID_SEQUENCE++;
     }
 
-    @RequestMapping(value = "view/{ticketId}", method = RequestMethod.GET)
-    public String view(@PathVariable("ticketId") long ticketId,
+    @RequestMapping(value = "view/{courseId}", method = RequestMethod.GET)
+    public String view(@PathVariable("courseId") long courseId,
             ModelMap model) {
-        Ticket ticket = this.ticketDatabase.get(ticketId);
-        if (ticket == null) {
-            return "redirect:/ticket/list";
+        Course course = this.courseDatabase.get(courseId);
+        if (course == null) {
+            return "redirect:/course/list";
         }
-        model.addAttribute("ticketId", Long.toString(ticketId));
-        model.addAttribute("ticket", ticket);
+        model.addAttribute("courseId", Long.toString(courseId));
+        model.addAttribute("course", course);
         return "view";
     }
 
     @RequestMapping(
-            value = "/{ticketId}/attachment/{attachment:.+}",
+            value = "/{courseId}/attachment/{attachment:.+}",
             method = RequestMethod.GET
     )
-    public View download(@PathVariable("ticketId") long ticketId,
+    public View download(@PathVariable("courseId") long courseId,
             @PathVariable("attachment") String name) {
-        Ticket ticket = this.ticketDatabase.get(ticketId);
-        if (ticket != null) {
-            Attachment attachment = ticket.getAttachment(name);
+        Course course = this.courseDatabase.get(courseId);
+        if (course != null) {
+            Attachment attachment = course.getAttachment(name);
             if (attachment != null) {
                 return new DownloadingView(attachment.getName(),
                         attachment.getMimeContentType(), attachment.getContents());
             }
         }
-        return new RedirectView("/ticket/list", true);
+        return new RedirectView("/course/list", true);
     }
 
 }

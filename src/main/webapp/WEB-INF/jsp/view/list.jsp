@@ -4,7 +4,7 @@
         <title>Course</title>
     </head>
     <body>
-        <h2>testCourse</h2>
+        <h2>TCourse</h2>
         <a href="<c:url value="/ticket/create" />">Add Course</a><br /><br />
         <table border="1">
             <tr>

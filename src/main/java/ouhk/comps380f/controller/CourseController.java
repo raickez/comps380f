@@ -1,9 +1,10 @@
 package ouhk.comps380f.controller;
 
 import java.io.IOException;
-import java.util.Hashtable;
+import java.security.Principal;
 import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,20 +14,27 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
+import ouhk.comps380f.exception.AttachmentNotFound;
+import ouhk.comps380f.exception.CourseNotFound;
 import ouhk.comps380f.model.Attachment;
 import ouhk.comps380f.model.Course;
+import ouhk.comps380f.service.AttachmentService;
+import ouhk.comps380f.service.CourseService;
 import ouhk.comps380f.view.DownloadingView;
 
 @Controller
 @RequestMapping("course")
 public class CourseController {
 
-    private volatile long COURSE_ID_SEQUENCE = 1;
-    private Map<Long, Course> courseDatabase = new Hashtable<>();
+    @Autowired
+    private CourseService courseService;
+
+    @Autowired
+    private AttachmentService attachmentService;
 
     @RequestMapping(value = {"", "list"}, method = RequestMethod.GET)
     public String list(ModelMap model) {
-        model.addAttribute("courseDatabase", courseDatabase);
+        model.addAttribute("courseDatabase", courseService.getCourses());
         return "list";
     }
 
@@ -37,25 +45,16 @@ public class CourseController {
 
     public static class Form {
 
-        private String courseTitle;
-        private String lectures;
+        private String subject;
         private String body;
         private List<MultipartFile> attachments;
 
-        public String getCourseTitle() {
-            return courseTitle;
+        public String getSubject() {
+            return subject;
         }
 
-        public void setCourseTitle(String courseTitle) {
-            this.courseTitle = courseTitle;
-        }
-
-        public String getLectures() {
-            return lectures;
-        }
-
-        public void setLectures(String lectures) {
-            this.lectures = lectures;
+        public void setSubject(String subject) {
+            this.subject = subject;
         }
 
         public String getBody() {
@@ -77,39 +76,19 @@ public class CourseController {
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
-    public View create(Form form) throws IOException {
-        Course course = new Course();
-        course.setId(this.getNextCourseId());
-        course.setCourseTitle(form.getCourseTitle());
-        course.setLectures(form.getLectures());
-        course.setBody(form.getBody());
-
-        for (MultipartFile filePart : form.getAttachments()) {
-            Attachment attachment = new Attachment();
-            attachment.setName(filePart.getOriginalFilename());
-            attachment.setMimeContentType(filePart.getContentType());
-            attachment.setContents(filePart.getBytes());
-            if (attachment.getName() != null && attachment.getName().length() > 0
-                    && attachment.getContents() != null && attachment.getContents().length > 0) {
-                course.addAttachment(attachment);
-            }
-        }
-        this.courseDatabase.put(course.getId(), course);
-        return new RedirectView("/course/view/" + course.getId(), true);
-    }
-
-    private synchronized long getNextCourseId() {
-        return this.COURSE_ID_SEQUENCE++;
+    public String create(Form form, Principal principal) throws IOException {
+        long courseId = courseService.createCourse(principal.getName(),
+                form.getSubject(), form.getBody(), form.getAttachments());
+        return "redirect:/course/view/" + courseId;
     }
 
     @RequestMapping(value = "view/{courseId}", method = RequestMethod.GET)
     public String view(@PathVariable("courseId") long courseId,
             ModelMap model) {
-        Course course = this.courseDatabase.get(courseId);
+        Course course = courseService.getCourse(courseId);
         if (course == null) {
             return "redirect:/course/list";
         }
-        model.addAttribute("courseId", Long.toString(courseId));
         model.addAttribute("course", course);
         return "view";
     }
@@ -120,15 +99,65 @@ public class CourseController {
     )
     public View download(@PathVariable("courseId") long courseId,
             @PathVariable("attachment") String name) {
-        Course course = this.courseDatabase.get(courseId);
-        if (course != null) {
-            Attachment attachment = course.getAttachment(name);
-            if (attachment != null) {
-                return new DownloadingView(attachment.getName(),
-                        attachment.getMimeContentType(), attachment.getContents());
-            }
+        Attachment attachment = attachmentService.getAttachment(courseId, name);
+        if (attachment != null) {
+            return new DownloadingView(attachment.getName(),
+                    attachment.getMimeContentType(), attachment.getContents());
         }
         return new RedirectView("/course/list", true);
     }
 
+    @RequestMapping(value = "delete/{courseId}", method = RequestMethod.GET)
+    public String deleteCourse(@PathVariable("courseId") long courseId)
+            throws CourseNotFound {
+        courseService.delete(courseId);
+        return "redirect:/course/list";
+    }
+
+    @RequestMapping(value = "edit/{courseId}", method = RequestMethod.GET)
+    public ModelAndView showEdit(@PathVariable("courseId") long courseId,
+            Principal principal, HttpServletRequest request) {
+        Course course = courseService.getCourse(courseId);
+        if (course == null
+                || (!request.isUserInRole("ROLE_ADMIN")
+                && !principal.getName().equals(course.getCustomerName()))) {
+            return new ModelAndView(new RedirectView("/course/list", true));
+        }
+
+        ModelAndView modelAndView = new ModelAndView("edit");
+        modelAndView.addObject("course", course);
+
+        Form courseForm = new Form();
+        courseForm.setSubject(course.getSubject());
+        courseForm.setBody(course.getBody());
+        modelAndView.addObject("courseForm", courseForm);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "edit/{courseId}", method = RequestMethod.POST)
+    public View edit(@PathVariable("courseId") long courseId, Form form,
+            Principal principal, HttpServletRequest request)
+            throws IOException, CourseNotFound {
+        Course course = courseService.getCourse(courseId);
+        if (course == null
+                || (!request.isUserInRole("ROLE_ADMIN")
+                && !principal.getName().equals(course.getCustomerName()))) {
+            return new RedirectView("/course/list", true);
+        }
+
+        courseService.updateCourse(courseId, form.getSubject(),
+                form.getBody(), form.getAttachments());
+        return new RedirectView("/course/view/" + courseId, true);
+    }
+
+    @RequestMapping(
+            value = "/{courseId}/delete/{attachment:.+}",
+            method = RequestMethod.GET
+    )
+    public String deleteAttachment(@PathVariable("courseId") long courseId,
+            @PathVariable("attachment") String name) throws AttachmentNotFound {
+        courseService.deleteAttachment(courseId, name);
+        return "redirect:/course/edit/" + courseId;
+    }
 }

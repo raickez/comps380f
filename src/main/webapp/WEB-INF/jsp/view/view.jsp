@@ -1,32 +1,28 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Course Material Page</title>
+        <title>Customer Support</title>
     </head>
     <body>
-        <h2>Course Title: <c:out value="${course.courseTitle}"/></h2>
-        <p>Lectures: <c:out value="${course.lectures}"/></p>
-        <!--<c:out value="${course.body}" /><br /><br />-->
-        <c:if test="${course.numberOfAttachments > 0}">
+        <c:url var="logoutUrl" value="/logout"/>
+        <form action="${logoutUrl}" method="post">
+            <input type="submit" value="Log out" />
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+
+        <h2>Course Title: <c:out value="${course.subject}" /></h2>
+        <c:if test="${fn:length(course.attachments) > 0}">
             Course Materials:
-            <c:forEach items="${course.attachments}" var="attachment" varStatus="status">
+            <c:forEach items="${course.attachments}" var="attachment"
+                       varStatus="status">
                 <c:if test="${!status.first}">, </c:if>
-                <a href="<c:url value="/course/${courseId}/attachment/${attachment.name}" />">
+                <a href="<c:url value="/course/${course.id}/attachment/${attachment.name}" />">
                     <c:out value="${attachment.name}" /></a>
             </c:forEach><br /><br />
         </c:if>
-            <table border="1">
-                <tr>
-                    <th>User</th>
-                    <th>Comments</th>
-                </tr>
-                <tr>
-                    <td>user test</td>
-                    <td>comments test</td>
-                </tr>
-            </table>
-            
-            
+
+        Lectures: <c:out value="${course.body}" /><br /><br />
+
         <a href="<c:url value="/course" />">Return to list courses</a>
     </body>
 </html>

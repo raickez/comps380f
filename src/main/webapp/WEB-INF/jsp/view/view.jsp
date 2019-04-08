@@ -22,7 +22,19 @@
         </c:if>
 
         Lectures: <c:out value="${course.body}" /><br /><br />
-
+        
+        <table border="1">
+            <tr>
+                <th>User</th>
+                <th>Comments</th>
+            </tr>
+            <tr>
+                <td>uesr test</td>
+                <td>comment test comment test comment test comment test</td>
+            </tr>
+        </table>
+        
+        Leave Comment: <form action="" method="post"><input type="text" name="comment" size="40"><input type="submit" value="Comment"></form>
         <a href="<c:url value="/course" />">Return to list courses</a>
     </body>
 </html>

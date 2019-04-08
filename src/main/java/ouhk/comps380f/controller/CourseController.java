@@ -120,7 +120,7 @@ public class CourseController {
         Course course = courseService.getCourse(courseId);
         if (course == null
                 || (!request.isUserInRole("ROLE_ADMIN")
-                && !principal.getName().equals(course.getCustomerName()))) {
+                && !principal.getName().equals(course.getLecturerName()))) {
             return new ModelAndView(new RedirectView("/course/list", true));
         }
 
@@ -142,7 +142,7 @@ public class CourseController {
         Course course = courseService.getCourse(courseId);
         if (course == null
                 || (!request.isUserInRole("ROLE_ADMIN")
-                && !principal.getName().equals(course.getCustomerName()))) {
+                && !principal.getName().equals(course.getLecturerName()))) {
             return new RedirectView("/course/list", true);
         }
 

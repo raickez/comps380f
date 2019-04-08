@@ -60,10 +60,10 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public long createCourse(String customerName, String subject,
+    public long createCourse(String lecturerName, String subject,
             String body, List<MultipartFile> attachments) throws IOException {
         Course course = new Course();
-        course.setCustomerName(customerName);
+        course.setLecturerName(lecturerName);
         course.setSubject(subject);
         course.setBody(body);
 

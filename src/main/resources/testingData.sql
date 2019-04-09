@@ -1,7 +1,7 @@
-INSERT INTO lecture(name,subject) VALUES ('Week 1: Overview, HTML5, CSS, JavaScript','Lecture 1: Overview of Web Applications');
-INSERT INTO lecture(name,subject) VALUES ('Week 2: Servlet, XML, JSON','Lecture 2: Servlet');
-INSERT INTO lecture(name,subject) VALUES ('Week 3: JSP, JavaBean','Lecture 3: JSP, JavaBean');
-INSERT INTO lecture(name,subject) VALUES ('Week 4: Session','Lecture 4: Session');
+INSERT INTO lecture(name,subject) VALUES ('Week 1: Overview, HTML5, CSS, JavaScript','Overview of Web Applications');
+INSERT INTO lecture(name,subject) VALUES ('Week 2: Servlet, XML, JSON','Servlet');
+INSERT INTO lecture(name,subject) VALUES ('Week 3: JSP, JavaBean','JSP, JavaBean');
+INSERT INTO lecture(name,subject) VALUES ('Week 4: Session','Session');
 
 INSERT INTO users VALUES ('keith', 'keithpw');
 INSERT INTO user_roles(username, role) VALUES ('keith', 'ROLE_USER');

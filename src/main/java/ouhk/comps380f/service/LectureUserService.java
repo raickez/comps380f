@@ -10,27 +10,27 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ouhk.comps380f.dao.TicketUserRepository;
-import ouhk.comps380f.model.TicketUser;
+import ouhk.comps380f.dao.LectureUserRepository;
+import ouhk.comps380f.model.LectureUser;
 import ouhk.comps380f.model.UserRole;
 
 @Service
-public class TicketUserService implements UserDetailsService {
+public class LectureUserService implements UserDetailsService {
 
     @Resource
-    TicketUserRepository ticketUserRepo;
+    LectureUserRepository lectureUserRepo;
 
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        TicketUser ticketUser = ticketUserRepo.findOne(username);
-        if (ticketUser == null) {
+        LectureUser lectureUser = lectureUserRepo.findOne(username);
+        if (lectureUser == null) {
             throw new UsernameNotFoundException("User '" + username + "' not found.");
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (UserRole role : ticketUser.getRoles()) {
+        for (UserRole role : lectureUser.getRoles()) {
             authorities.add(new SimpleGrantedAuthority(role.getRole()));
         }
-        return new User(ticketUser.getUsername(), ticketUser.getPassword(), authorities);
+        return new User(lectureUser.getUsername(), lectureUser.getPassword(), authorities);
     }
 }

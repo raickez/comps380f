@@ -7,51 +7,51 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ouhk.comps380f.dao.AttachmentRepository;
-import ouhk.comps380f.dao.TicketRepository;
+import ouhk.comps380f.dao.LectureRepository;
 import ouhk.comps380f.exception.AttachmentNotFound;
-import ouhk.comps380f.exception.TicketNotFound;
+import ouhk.comps380f.exception.LectureNotFound;
 import ouhk.comps380f.model.Attachment;
-import ouhk.comps380f.model.Ticket;
+import ouhk.comps380f.model.Lecture;
 
 @Service
-public class TicketServiceImpl implements TicketService {
+public class LectureServiceImpl implements LectureService {
 
     @Resource
-    private TicketRepository ticketRepo;
+    private LectureRepository lectureRepo;
 
     @Resource
     private AttachmentRepository attachmentRepo;
 
     @Override
     @Transactional
-    public List<Ticket> getTickets() {
-        return ticketRepo.findAll();
+    public List<Lecture> getLectures() {
+        return lectureRepo.findAll();
     }
 
     @Override
     @Transactional
-    public Ticket getTicket(long id) {
-        return ticketRepo.findOne(id);
+    public Lecture getLecture(long id) {
+        return lectureRepo.findOne(id);
     }
 
     @Override
-    @Transactional(rollbackFor = TicketNotFound.class)
-    public void delete(long id) throws TicketNotFound {
-        Ticket deletedTicket = ticketRepo.findOne(id);
-        if (deletedTicket == null) {
-            throw new TicketNotFound();
+    @Transactional(rollbackFor = LectureNotFound.class)
+    public void delete(long id) throws LectureNotFound {
+        Lecture deletedLecture = lectureRepo.findOne(id);
+        if (deletedLecture == null) {
+            throw new LectureNotFound();
         }
-        ticketRepo.delete(deletedTicket);
+        lectureRepo.delete(deletedLecture);
     }
 
     @Override
     @Transactional(rollbackFor = AttachmentNotFound.class)
-    public void deleteAttachment(long ticketId, String name) throws AttachmentNotFound {
-        Ticket ticket = ticketRepo.findOne(ticketId);
-        for (Attachment attachment : ticket.getAttachments()) {
+    public void deleteAttachment(long lectureId, String name) throws AttachmentNotFound {
+        Lecture lecture = lectureRepo.findOne(lectureId);
+        for (Attachment attachment : lecture.getAttachments()) {
             if (attachment.getName().equals(name)) {
-                ticket.deleteAttachment(attachment);
-                ticketRepo.save(ticket);
+                lecture.deleteAttachment(attachment);
+                lectureRepo.save(lecture);
                 return;
             }
         }
@@ -60,54 +60,54 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
-    public long createTicket(String customerName, String subject,
+    public long createLecture(String customerName, String subject,
             String body, List<MultipartFile> attachments) throws IOException {
-        Ticket ticket = new Ticket();
-        ticket.setCustomerName(customerName);
-        ticket.setSubject(subject);
-        ticket.setBody(body);
+        Lecture lecture = new Lecture();
+        lecture.setCustomerName(customerName);
+        lecture.setSubject(subject);
+        lecture.setBody(body);
 
         for (MultipartFile filePart : attachments) {
             Attachment attachment = new Attachment();
             attachment.setName(filePart.getOriginalFilename());
             attachment.setMimeContentType(filePart.getContentType());
             attachment.setContents(filePart.getBytes());
-            attachment.setTicket(ticket);
+            attachment.setLecture(lecture);
             if (attachment.getName() != null && attachment.getName().length() > 0
                     && attachment.getContents() != null
                     && attachment.getContents().length > 0) {
-                ticket.getAttachments().add(attachment);
+                lecture.getAttachments().add(attachment);
             }
         }
-        Ticket savedTicket = ticketRepo.save(ticket);
-        return savedTicket.getId();
+        Lecture savedLecture = lectureRepo.save(lecture);
+        return savedLecture.getId();
     }
 
     @Override
-    @Transactional(rollbackFor = TicketNotFound.class)
-    public void updateTicket(long id, String subject,
+    @Transactional(rollbackFor = LectureNotFound.class)
+    public void updateLecture(long id, String subject,
             String body, List<MultipartFile> attachments)
-            throws IOException, TicketNotFound {
-        Ticket updatedTicket = ticketRepo.findOne(id);
-        if (updatedTicket == null) {
-            throw new TicketNotFound();
+            throws IOException, LectureNotFound {
+        Lecture updatedLecture = lectureRepo.findOne(id);
+        if (updatedLecture == null) {
+            throw new LectureNotFound();
         }
 
-        updatedTicket.setSubject(subject);
-        updatedTicket.setBody(body);
+        updatedLecture.setSubject(subject);
+        updatedLecture.setBody(body);
 
         for (MultipartFile filePart : attachments) {
             Attachment attachment = new Attachment();
             attachment.setName(filePart.getOriginalFilename());
             attachment.setMimeContentType(filePart.getContentType());
             attachment.setContents(filePart.getBytes());
-            attachment.setTicket(updatedTicket);
+            attachment.setLecture(updatedLecture);
             if (attachment.getName() != null && attachment.getName().length() > 0
                     && attachment.getContents() != null
                     && attachment.getContents().length > 0) {
-                updatedTicket.getAttachments().add(attachment);
+                updatedLecture.getAttachments().add(attachment);
             }
         }
-        ticketRepo.save(updatedTicket);
+        lectureRepo.save(updatedLecture);
     }
 }

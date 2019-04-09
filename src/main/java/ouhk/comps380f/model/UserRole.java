@@ -25,12 +25,12 @@ public class UserRole implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "username")
-    private TicketUser user;
+    private LectureUser user;
 
     public UserRole() {
     }
 
-    public UserRole(TicketUser user, String role) {
+    public UserRole(LectureUser user, String role) {
         this.user = user;
         this.role = role;
     }
@@ -59,11 +59,11 @@ public class UserRole implements Serializable {
         this.role = role;
     }
 
-    public TicketUser getUser() {
+    public LectureUser getUser() {
         return user;
     }
 
-    public void setUser(TicketUser user) {
+    public void setUser(LectureUser user) {
         this.user = user;
     }
 }

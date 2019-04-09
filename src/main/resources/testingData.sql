@@ -20,6 +20,6 @@ INSERT INTO users VALUES ('dan', 'danpw');
 INSERT INTO user_roles(username, role) VALUES ('dan', 'ROLE_USER');
 
 INSERT INTO comment(username,lecture_id,comment) VALUES ('keith',1,'Welcome to my class!');
-INSERT INTO comment(username,lecture_id,comment) VALUES ('dan',5,'Hello Keith!');
+INSERT INTO comment(username,lecture_id,comment) VALUES ('dan',1,'Hello Keith!');
 
 /*INSERT INTO poll (response1,response2,response3,response4,responsecount1,responsecount2,responsecount3,responsecount4,)*/

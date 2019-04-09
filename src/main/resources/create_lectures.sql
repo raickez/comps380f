@@ -1,8 +1,17 @@
-CREATE TABLE comment (
-    username VARCHAR(50) NOT NULL,
-    lecture_id INTEGER NOT NULL, 
-    comment VARCHAR(255) NOT NULL,
-    PRIMARY KEY (username,lecture_id),
-    FOREIGN KEY (username) REFERENCES users(username), 
+CREATE TABLE lecture (
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    name VARCHAR(255) NOT NULL,
+    subject VARCHAR(255) NOT NULL,
+    body VARCHAR(255),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE attachment (
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    filename VARCHAR(255) DEFAULT NULL,
+    content_type VARCHAR(255) DEFAULT NULL,
+    content BLOB DEFAULT NULL,
+    lecture_id INTEGER DEFAULT NULL,
+    PRIMARY KEY (id),
     FOREIGN KEY (lecture_id) REFERENCES lecture(id) 
 );

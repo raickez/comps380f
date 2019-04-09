@@ -1,8 +1,8 @@
 CREATE TABLE comment (
     username VARCHAR(50) NOT NULL,
-    course_id INTEGER NOT NULL, 
+    lecture_id INTEGER NOT NULL, 
     comment VARCHAR(255) NOT NULL,
-    PRIMARY KEY (username,course_id),
+    PRIMARY KEY (username,lecture_id),
     FOREIGN KEY (username) REFERENCES users(username), 
-    FOREIGN KEY (course_id) REFERENCES course(id) 
+    FOREIGN KEY (lecture_id) REFERENCES lecture(id) 
 );

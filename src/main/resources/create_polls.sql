@@ -1,5 +1,5 @@
 CREATE TABLE poll (
-    course_id INTEGER NOT NULL, 
+    poll_id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), 
     response1 VARCHAR(255) NOT NULL,
     response2 VARCHAR(255) NOT NULL,
     response3 VARCHAR(255) NOT NULL,
@@ -8,6 +8,5 @@ CREATE TABLE poll (
     responsecount2 INTEGER default 0,
     responsecount3 INTEGER default 0,
     responsecount4 INTEGER default 0,
-    PRIMARY KEY (course_id),
-    FOREIGN KEY (course_id) REFERENCES course(id) 
+    PRIMARY KEY (poll_id)
 );

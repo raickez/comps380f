@@ -13,20 +13,20 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Course implements Serializable {
+public class Ticket implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name")
-    private String lecturerName;
+    private String customerName;
 
     private String subject;
 
     private String body;
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER,
+    @OneToMany(mappedBy = "ticket", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Attachment> attachments = new ArrayList<>();
 
@@ -38,12 +38,12 @@ public class Course implements Serializable {
         this.id = id;
     }
 
-    public String getLecturerName() {
-        return lecturerName;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setLecturerName(String lecturerName) {
-        this.lecturerName = lecturerName;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public String getSubject() {
@@ -71,7 +71,7 @@ public class Course implements Serializable {
     }
     
     public void deleteAttachment(Attachment attachment) {
-        attachment.setCourse(null);
+        attachment.setTicket(null);
         this.attachments.remove(attachment);
     }
 }

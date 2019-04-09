@@ -5,5 +5,5 @@ import ouhk.comps380f.model.Attachment;
 
 public interface AttachmentRepository extends JpaRepository<Attachment, Long> {
 
-    public Attachment findByCourseIdAndName(long courseId, String name);
+    public Attachment findByTicketIdAndName(long ticketId, String name);
 }

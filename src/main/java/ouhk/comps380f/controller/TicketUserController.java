@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
-import ouhk.comps380f.dao.CourseUserRepository;
-import ouhk.comps380f.model.CourseUser;
+import ouhk.comps380f.dao.TicketUserRepository;
+import ouhk.comps380f.model.TicketUser;
 
 @Controller
 @RequestMapping("user")
-public class CourseUserController {
+public class TicketUserController {
 
     @Resource
-    CourseUserRepository courseUserRepo;
+    TicketUserRepository ticketUserRepo;
 
     @RequestMapping(value = {"", "list"}, method = RequestMethod.GET)
     public String list(ModelMap model) {
-        model.addAttribute("courseUsers", courseUserRepo.findAll());
+        model.addAttribute("ticketUsers", ticketUserRepo.findAll());
         return "listUser";
     }
 
@@ -59,21 +59,21 @@ public class CourseUserController {
 
     @RequestMapping(value = "create", method = RequestMethod.GET)
     public ModelAndView create() {
-        return new ModelAndView("addUser", "courseUser", new Form());
+        return new ModelAndView("addUser", "ticketUser", new Form());
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public View create(Form form) throws IOException {
-        CourseUser user = new CourseUser(form.getUsername(),
+        TicketUser user = new TicketUser(form.getUsername(),
                 form.getPassword(), form.getRoles()
         );
-        courseUserRepo.save(user);
+        ticketUserRepo.save(user);
         return new RedirectView("/user/list", true);
     }
 
     @RequestMapping(value = "delete/{username}", method = RequestMethod.GET)
-    public View deleteCourse(@PathVariable("username") String username) {
-        courseUserRepo.delete(courseUserRepo.findOne(username));
+    public View deleteTicket(@PathVariable("username") String username) {
+        ticketUserRepo.delete(ticketUserRepo.findOne(username));
         return new RedirectView("/user/list", true);
     }
 }

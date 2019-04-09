@@ -22,14 +22,14 @@
     <b:bean id="dataSource"
             class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <b:property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver" />
-        <b:property name="url" value="jdbc:derby://localhost:1527/coursesupport" />
+        <b:property name="url" value="jdbc:derby://localhost:1527/custsupport" />
         <b:property name="username" value="nbuser" />
         <b:property name="password" value="nbuser" />
     </b:bean>    
 
     <http auto-config="true">
-        <intercept-url pattern="/course/delete/**" access="hasRole('ADMIN')" />
-        <intercept-url pattern="/course/**" access="hasAnyRole('USER','ADMIN')" />
+        <intercept-url pattern="/ticket/delete/**" access="hasRole('ADMIN')" />
+        <intercept-url pattern="/ticket/**" access="hasAnyRole('USER','ADMIN')" />
         <form-login login-page="/login" authentication-failure-url="/login?error" />
         <logout logout-success-url="/login?logout"
                 invalidate-session="true"
@@ -39,10 +39,10 @@
 
     <context:annotation-config />
 
-    <b:bean id="courseUserService" class="ouhk.comps380f.service.CourseUserService" />
+    <b:bean id="ticketUserService" class="ouhk.comps380f.service.TicketUserService" />
 
     <authentication-manager>
-        <authentication-provider user-service-ref="courseUserService" />
+        <authentication-provider user-service-ref="ticketUserService" />
     </authentication-manager>
 
     <!-- Create default configuration for Hibernate -->

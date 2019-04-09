@@ -12,7 +12,7 @@
 
 <h2>Create a User</h2>
 <form:form method="POST" enctype="multipart/form-data"
-           modelAttribute="courseUser">
+           modelAttribute="ticketUser">
     <form:label path="username">Username</form:label><br/>
     <form:input type="text" path="username" /><br/><br/>
     <form:label path="password">Password</form:label><br/>

@@ -33,26 +33,24 @@
                 <th>User</th>
                 <th>Comment</th>
             </tr>
-            <c:choose>
-                <c:when test="${fn:length(commentDatabase) == 0}">
-                    <tr><td><i>There are no comments in the system</i></td></tr>
-                </c:when>
-                <c:otherwise>
-                    <c:forEach items="${commentDatabase}" var="comment">
-                        <td><c:out value="${comment.username}" /></td>
-                        <td><c:out value="${comment.comment}" /></td>
-                    </c:forEach>
-                </c:otherwise>
-            </c:choose>
-        </table>
-        <form:form method="POST" modelAttribute="commentForm">
-            <form:label path="comment">Leave Comment</form:label><br/>
-            <form:input type="text" path="comment" /><br/><br/>
-            <input type="hidden" name="username" value="${lecture.customerName}"/>
-            <input type="hidden" name="lecture_id" value="${lecture.id}"/>
-            <input type="submit" value="Comment"/>
-        </form:form>
-
+            <tr>
+                <c:choose>
+                    <c:when test="${fn:length(commentDatabase) == 0}">
+                        <td colspan="2"><i>There are no tickets in the system.</i><td>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach items="${commentDatabase}" var="entry">
+                                <c:if test="${entry.lecture_id} == ${ticketId}">
+                                <td><c:out value="${entry.value.username}" /></td>
+                                <td><c:out value="${entry.value.comment}" /></td>
+                            </c:if>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+            </tr>
+        </table><br>
+            
+        <a href="<c:url value="/lecture/${lectureId}/comment"/>">Leave Comment</a><br>
         <a href="<c:url value="/lecture" />">Return to list lectures</a>
     </body>
 </html>

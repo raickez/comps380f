@@ -1,15 +1,12 @@
 package ouhk.comps380f.model;
 
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.Map;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 
-//@Entity
-//@Table(name = "comment")
-public class Comment {
+@Table(name = "comment")
+public class Comment{
     
     private String username;
     private String comment;

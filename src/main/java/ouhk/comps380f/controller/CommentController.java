@@ -23,24 +23,7 @@ public class CommentController {
 
     private Map<Integer, Comment> commentDatabase = new Hashtable<>();
 
-    @RequestMapping(value = "view/{lecture_id}", method = RequestMethod.GET)
-    public String view(@PathVariable("lecture_id") int lecture_id,
-            ModelMap model) {
-        Comment comment = this.commentDatabase.get(lecture_id);
-        if (comment == null) {
-            return "redirect:/lecture/list";
-        }
-        model.addAttribute("lecture_id", Integer.toString(lecture_id));
-        model.addAttribute("comment", comment);
-        return "view";
-    }
-
-    @RequestMapping(value = "addcomment", method = RequestMethod.GET)
-    public ModelAndView create() {
-        return new ModelAndView("view", "commentForm", new Form());
-    }
-
-    public static class Form {
+    public static class cmForm {
 
         private String username;
         private String comment;
@@ -71,15 +54,21 @@ public class CommentController {
         }
     }
 
-    @RequestMapping(value = "addcomment", method = RequestMethod.POST)
-    public View create(Form form) throws IOException {
+    @RequestMapping(value = "/{lectureId}/comment", method = RequestMethod.GET)
+    public ModelAndView createForm(@PathVariable("lectureId") long lectureId, ModelMap model) {
+        return new ModelAndView("comment", "commentForm", new cmForm());
+    }
+    
+    @RequestMapping(value = "{lectureId}/comment", method = RequestMethod.POST)
+    public String addComment(@PathVariable("lectureId") long lectureId, cmForm form,
+            ModelMap model) throws IOException {
         Comment comment = new Comment();
         comment.setLecture_id(form.getLecture_id());
         comment.setComment(form.getComment());
         comment.setUsername(form.getUsername());
-        
+
         this.commentDatabase.put(comment.getLecture_id(), comment);
-        return new RedirectView("/course/view/" + comment.getLecture_id(), true);
+        return "redirect:/lecture/list";
     }
 
 }

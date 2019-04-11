@@ -1,5 +1,6 @@
 package ouhk.comps380f.service;
 
+import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,17 +14,17 @@ public class CommentServiceImpl implements CommentService {
     @Resource
     private CommentRepository commentRepo;
 
+    @Override
+    @Transactional
+    public List<Comment> getComment(long id) {
+        return commentRepo.findAllById(id);
+    }
+
     /*
     @Override
     @Transactional
     public List<Comment> getLectures() {
         return commentRepo.findAll();
-    }
-
-    @Override
-    @Transactional
-    public Lecture getLecture(long id) {
-        return lectureRepo.findOne(id);
     }
 
     @Override
@@ -49,20 +50,20 @@ public class CommentServiceImpl implements CommentService {
         }
         throw new AttachmentNotFound();
     }
-*/
+     */
     @Override
     @Transactional
     public long createComment(String username, String cm,
             long lecture_id) throws Exception {
         Comment comment = new Comment();
         Lecture lecture = new Lecture();
-        
+
         comment.setUsername(username);
         comment.setComment(cm);
         lecture.setId(lecture_id);
         comment.setLecture_id(lecture_id);
         comment.setLecture(lecture);
-        
+
         Comment savedComment = commentRepo.save(comment);
         return savedComment.getId();
     }

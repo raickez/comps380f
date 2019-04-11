@@ -20,6 +20,7 @@ import ouhk.comps380f.model.Attachment;
 import ouhk.comps380f.model.Lecture;
 import ouhk.comps380f.service.AttachmentService;
 import ouhk.comps380f.service.LectureService;
+import ouhk.comps380f.service.CommentService;
 import ouhk.comps380f.view.DownloadingView;
 
 @Controller
@@ -28,6 +29,9 @@ public class LectureController {
 
     @Autowired
     private LectureService lectureService;
+
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     private AttachmentService attachmentService;
@@ -90,6 +94,8 @@ public class LectureController {
             return "redirect:/lecture/list";
         }
         model.addAttribute("lecture", lecture);
+        //modified
+        model.addAttribute("commentDatabase", commentService.getComment(lectureId));
         return "view";
     }
 

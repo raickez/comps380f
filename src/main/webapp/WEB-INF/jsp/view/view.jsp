@@ -39,11 +39,9 @@
                         <td colspan="2"><i>There are no tickets in the system.</i><td>
                         </c:when>
                         <c:otherwise>
-                            <c:forEach items="${commentDatabase}" var="entry">
-                                <c:if test="${entry.lecture_id} == ${ticketId}">
+                            <c:forEach items="${commentDatabase}" var="entry">a
                                 <td><c:out value="${entry.value.username}" /></td>
                                 <td><c:out value="${entry.value.comment}" /></td>
-                            </c:if>
                         </c:forEach>
                     </c:otherwise>
                 </c:choose>

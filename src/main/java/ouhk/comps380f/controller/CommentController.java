@@ -1,25 +1,18 @@
 package ouhk.comps380f.controller;
 
-import java.io.IOException;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
-import org.springframework.web.servlet.view.RedirectView;
-import ouhk.comps380f.model.Attachment;
-import ouhk.comps380f.model.Comment;
-import ouhk.comps380f.dao.CommentRepository;
+import ouhk.comps380f.model.Lecture;
 import ouhk.comps380f.service.CommentService;
-import ouhk.comps380f.view.DownloadingView;
+import ouhk.comps380f.service.LectureService;
 
 @Controller
 @RequestMapping("lecture")
@@ -31,6 +24,9 @@ public class CommentController {
     CommentRepository commentRepo;*/
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private LectureService lectureService;
 
     public static class cmForm {
 
@@ -71,26 +67,31 @@ public class CommentController {
             this.lecture_id = lecture_id;
         }
 
-        
     }
 
     @RequestMapping(value = "/{lectureId}/comment", method = RequestMethod.GET)
     public ModelAndView createForm(@PathVariable("lectureId") long lectureId, ModelMap model) {
+        Lecture lecture = lectureService.getLecture(lectureId);
+        if (lecture == null) {
+            return new ModelAndView("list");
+        }
+        model.addAttribute("lecture", lecture);
         return new ModelAndView("comment", "commentForm", new cmForm());
     }
 
     @RequestMapping(value = "{lectureId}/comment", method = RequestMethod.POST)
     public String addComment(@PathVariable("lectureId") long lectureId, cmForm form,
-            ModelMap model) throws Exception {
+            ModelMap model, HttpServletRequest request) throws Exception {
         /*Comment comment = new Comment();
         comment.setLecture_id(form.getLecture_id());
         comment.setComment(form.getComment());
         comment.setUsername(form.getUsername());*/
 
         //Comment comment = new Comment("user", "comment", 5);
-
-        commentService.createComment(form.getUsername(),form.getComment(),form.getLecture_id());
+        
+        commentService.createComment(request.getUserPrincipal().getName(), form.getComment(), form.getLecture_id());
         return "redirect:/lecture/list";
     }
 
+    
 }

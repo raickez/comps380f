@@ -33,21 +33,25 @@
                 <th>User</th>
                 <th>Comment</th>
             </tr>
-            <tr>
-                <c:choose>
-                    <c:when test="${fn:length(commentDatabase) == 0}">
-                        <td colspan="2"><i>There are no tickets in the system.</i><td>
-                        </c:when>
-                        <c:otherwise>
-                            <c:forEach items="${commentDatabase}" var="entry">a
-                                <td><c:out value="${entry.value.username}" /></td>
-                                <td><c:out value="${entry.value.comment}" /></td>
-                        </c:forEach>
-                    </c:otherwise>
-                </c:choose>
-            </tr>
+
+            <c:choose>
+                <c:when test="${fn:length(commentDatabase) == 0}">
+                    <tr>
+                        <td colspan="2"><i>There are no tickets in the system.</i></td>
+                    </tr>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach items="${commentDatabase}" var="entry">
+                        <tr>
+                            <td><c:out value="${entry.username}" /></td>
+                            <td><c:out value="${entry.comment}" /></td>
+                        </tr>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
+
         </table><br>
-            
+
         <a href="<c:url value="/lecture/${lectureId}/comment"/>">Leave Comment</a><br>
         <a href="<c:url value="/lecture" />">Return to list lectures</a>
     </body>

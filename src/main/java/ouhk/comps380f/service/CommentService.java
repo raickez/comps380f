@@ -12,7 +12,7 @@ public interface CommentService {
     public long createComment(String username, String cm,
             long lecture_id) throws Exception;
     
-    public List<Comment> getComment(long id);
+    public List<Comment> getComment(long lectureId);
 
     /*public List<Lecture> getLectures();
 

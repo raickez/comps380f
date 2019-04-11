@@ -94,7 +94,7 @@ public class LectureController {
             return "redirect:/lecture/list";
         }
         model.addAttribute("lecture", lecture);
-        //modified
+        //modifiedmodifiedmodifiedmodifiedmodifiedmodifiedmodifiedmodifiedmodifiedmodifiedmodifiedmodifiedmodifiedmodifiedmodified
         model.addAttribute("commentDatabase", commentService.getComment(lectureId));
         return "view";
     }

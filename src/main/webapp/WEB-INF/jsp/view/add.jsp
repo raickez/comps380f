@@ -72,22 +72,11 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <form method="post" action="#" id="#">
-
-
-
-
                             <div class="form-group files">
                                 <label>Upload Your File </label>
-                                <input type="file" class="form-control" multiple="">
+                                <input type="file" name="attachments" multiple="multiple" class="form-control"/>
                             </div>
-
-
-                        </form>
-
-
                     </div>
-               
                 </div>
             </div>
 

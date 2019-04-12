@@ -45,10 +45,19 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public String findResponseByPollIdAndUsername(long poll_id, String username) {
-        return pollResponseRepo.findResponseByPollIdAndUsername(poll_id, username);
+    public String findResponseByPollIdAndUsername(long poll_id,String username) {
+        return pollResponseRepo.findResponseByPollIdAndUsername(poll_id,username);
     }
 
+    /*@Override
+    @Transactional(rollbackFor = CommentNotFound.class)
+    public void delComment(long id) throws CommentNotFound {
+        Comment deletedComment = commentRepo.findOne(id);
+        if (deletedComment == null) {
+            throw new CommentNotFound();
+        }
+        commentRepo.delete(deletedComment);
+    }*/
     @Override
     @Transactional
     public long createPoll(String question, String response1, String response2,
@@ -92,18 +101,6 @@ public class PollServiceImpl implements PollService {
             throw new Exception();
         }
         pollResponseRepo.delete(deletedPollAns);
-    }
-
-    @Override
-    @Transactional(rollbackFor = PollResponseNotFound.class)
-    public void delPoll(long poll_id) throws Exception {
-        Poll deletedPoll = pollRepo.findPollByPollId(poll_id);
-        List<PollResponse> deletedPollAns = pollResponseRepo.findAnsPollByPollId(poll_id);
-        if (deletedPollAns == null) {
-            throw new Exception();
-        }
-        pollResponseRepo.delete(deletedPollAns);
-        pollRepo.delete(deletedPoll);
     }
 
     /*(@Override

@@ -128,28 +128,22 @@ public class PollController {
     }
 
     @RequestMapping(value = "/poll/{poll_id}", method = RequestMethod.GET)
-    public ModelAndView createAnsForm(@PathVariable("poll_id") long poll_id, ModelMap model, HttpServletRequest request) {
+    public ModelAndView createAnsForm(@PathVariable("poll_id") long poll_id, ModelMap model,HttpServletRequest request) {
         model.addAttribute("pollDatabase", pollService.getPoll(poll_id));
-        model.addAttribute("pollAllCount", pollService.countAllByPollId(poll_id));
-        model.addAttribute("pollCount1", pollService.countAllByPollIdAndResponse(poll_id, pollService.getPoll(poll_id).getResponse1()));
-        model.addAttribute("pollCount2", pollService.countAllByPollIdAndResponse(poll_id, pollService.getPoll(poll_id).getResponse2()));
-        model.addAttribute("pollCount3", pollService.countAllByPollIdAndResponse(poll_id, pollService.getPoll(poll_id).getResponse3()));
-        model.addAttribute("pollCount4", pollService.countAllByPollIdAndResponse(poll_id, pollService.getPoll(poll_id).getResponse4()));
-        model.addAttribute("Ivote", pollService.findResponseByPollIdAndUsername(poll_id, request.getUserPrincipal().getName()));
+        model.addAttribute("pollAllCount",pollService.countAllByPollId(poll_id));
+        model.addAttribute("pollCount1",pollService.countAllByPollIdAndResponse(poll_id,pollService.getPoll(poll_id).getResponse1()));
+        model.addAttribute("pollCount2",pollService.countAllByPollIdAndResponse(poll_id,pollService.getPoll(poll_id).getResponse2()));
+        model.addAttribute("pollCount3",pollService.countAllByPollIdAndResponse(poll_id,pollService.getPoll(poll_id).getResponse3()));
+        model.addAttribute("pollCount4",pollService.countAllByPollIdAndResponse(poll_id,pollService.getPoll(poll_id).getResponse4()));
+        model.addAttribute("Ivote",pollService.findResponseByPollIdAndUsername(poll_id,request.getUserPrincipal().getName()));
         return new ModelAndView("viewPoll", "ansPollForm", new ansPollForm());
     }
 
     @RequestMapping(value = "/poll/{poll_id}", method = RequestMethod.POST)
-    public String ansPoll(@PathVariable("poll_id") long poll_id, ansPollForm form,
+    public String ansPoll(@PathVariable("poll_id") long poll_id,ansPollForm form,
             ModelMap model, HttpServletRequest request) throws Exception {
-        pollService.ansPoll(poll_id, request.getUserPrincipal().getName(), form.getResponse());
+        pollService.ansPoll(poll_id,request.getUserPrincipal().getName(),form.getResponse());
         return "redirect:/lecture/poll/{poll_id}";
-    }
-
-    @RequestMapping(value = "/poll/delete/{poll_id}", method = RequestMethod.GET)
-    public String delPoll(@PathVariable("poll_id") long poll_id) throws Exception {
-        pollService.delPoll(poll_id);
-        return "redirect:/lecture/poll/list";
     }
 
 }

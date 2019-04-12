@@ -18,7 +18,6 @@ public class PollResponse implements Serializable {
     
     private long poll_id;
     
-    //@OneToOne(fetch = FetchType.LAZY)
     private String username;
     
     private String response;

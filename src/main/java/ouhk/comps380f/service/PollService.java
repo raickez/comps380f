@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 import ouhk.comps380f.exception.AttachmentNotFound;
 import ouhk.comps380f.exception.PollNotFound;
+import ouhk.comps380f.exception.PollResponseNotFound;
 import ouhk.comps380f.model.Poll;
 
 public interface PollService {
@@ -15,9 +16,9 @@ public interface PollService {
     
     public Poll getPoll(long poll_id);
     
-    public long ansPoll(long poll_id,String username,String response) throws Exception;
+    public void ansPoll(long poll_id,String username,String response) throws Exception;
     
-    //public void delComment(long id) throws CommentNotFound;
+    public void delPollAns(long id,String username) throws Exception;
 
     /*public List<Lecture> getLectures();
 

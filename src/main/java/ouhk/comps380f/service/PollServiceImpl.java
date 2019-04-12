@@ -8,6 +8,7 @@ import ouhk.comps380f.dao.PollRepository;
 import ouhk.comps380f.dao.PollResponseRepository;
 import ouhk.comps380f.model.Poll;
 import ouhk.comps380f.model.PollResponse;
+import ouhk.comps380f.exception.PollResponseNotFound;
 
 @Service
 public class PollServiceImpl implements PollService {
@@ -39,28 +40,6 @@ public class PollServiceImpl implements PollService {
         }
         commentRepo.delete(deletedComment);
     }*/
-
- /*
-    @Override
-    @Transactional
-    public List<Comment> getLectures() {
-        return commentRepo.findAll();
-    }
-
-    @Override
-    @Transactional(rollbackFor = AttachmentNotFound.class)
-    public void deleteAttachment(long lectureId, String name) throws AttachmentNotFound {
-        Lecture lecture = lectureRepo.findOne(lectureId);
-        for (Attachment attachment : lecture.getAttachments()) {
-            if (attachment.getName().equals(name)) {
-                lecture.deleteAttachment(attachment);
-                lectureRepo.save(lecture);
-                return;
-            }
-        }
-        throw new AttachmentNotFound();
-    }
-     */
     @Override
     @Transactional
     public long createPoll(String question, String response1, String response2,
@@ -79,15 +58,31 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public long ansPoll(long poll_id, String username, String response) throws Exception {
+    public void ansPoll(long poll_id, String username, String response) throws Exception, PollResponseNotFound {
         PollResponse pollResponse = new PollResponse();
-        
+
         pollResponse.setPoll_id(poll_id);
         pollResponse.setUsername(username);
         pollResponse.setResponse(response);
+        //delPollAns(poll_id,username);
+        PollResponse deletedPollAns = pollResponseRepo.findByPollIdAndUsername(poll_id, username);
+        if (deletedPollAns == null) {
+            PollResponse savedPollResponse = pollResponseRepo.save(pollResponse);
+        }else{
+        pollResponseRepo.delete(deletedPollAns);
+        PollResponse savedPollResponse = pollResponseRepo.save(pollResponse);}
 
-        PollResponse savedPollResponse = pollResponseRepo.save(pollResponse);
-        return savedPollResponse.getId();
+        
+    }
+
+    @Override
+    @Transactional(rollbackFor = PollResponseNotFound.class)
+    public void delPollAns(long poll_id, String username) throws Exception {
+        PollResponse deletedPollAns = pollResponseRepo.findByPollIdAndUsername(poll_id, username);
+        if (deletedPollAns == null) {
+            throw new Exception();
+        }
+        pollResponseRepo.delete(deletedPollAns);
     }
 
     /*(@Override

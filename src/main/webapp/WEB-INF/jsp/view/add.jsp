@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
-
     <head>
-
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
         <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -68,19 +66,16 @@
             <form:label path="subject">Subject</form:label><br/>
             <form:input type="text" path="subject" /><br/><br/>
             <b>Course Materials</b><br/>
-
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                            <div class="form-group files">
-                                <label>Upload Your File </label>
-                                <input type="file" name="attachments" multiple="multiple" class="form-control"/>
-                            </div>
+                        <div class="form-group files">
+                            <label>Upload Your File </label>
+                            <input type="file" name="attachments" multiple="multiple" class="form-control"/>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
             <br/>
             <input type="submit" value="Submit"/>
         </form:form>

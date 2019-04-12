@@ -15,7 +15,8 @@ public interface CommentService {
     public List<Comment> getComment(long lectureId);
     
     public void delComment(long id) throws CommentNotFound;
-
+    
+    public void delAllComment(long lectureId) throws CommentNotFound;
     /*public List<Lecture> getLectures();
 
     public void updateLecture(long id, String subject,

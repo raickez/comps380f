@@ -28,7 +28,9 @@
     </b:bean>    
 
     <http auto-config="true">
+        <intercept-url pattern="/user/**" access="hasRole('ADMIN')" />
         <intercept-url pattern="/lecture/delete/**" access="hasRole('ADMIN')" />
+        <intercept-url pattern="/lecture/list" access="permitAll" />
         <intercept-url pattern="/lecture/**" access="hasAnyRole('USER','ADMIN')" />
         <form-login login-page="/login" authentication-failure-url="/login?error" />
         <logout logout-success-url="/login?logout"

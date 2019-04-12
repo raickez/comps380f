@@ -31,6 +31,16 @@ public class CommentServiceImpl implements CommentService {
         commentRepo.delete(deletedComment);
     }
 
+    @Override
+    @Transactional(rollbackFor = CommentNotFound.class)
+    public void delAllComment(long lectureId) throws CommentNotFound {
+        List<Comment> deletedAllComment = commentRepo.findAllByLectureId(lectureId);
+        if (deletedAllComment == null) {
+            throw new CommentNotFound();
+        }
+        commentRepo.delete(deletedAllComment);
+    }
+
     /*
     @Override
     @Transactional

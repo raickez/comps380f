@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 import ouhk.comps380f.exception.AttachmentNotFound;
+import ouhk.comps380f.exception.CommentNotFound;
 import ouhk.comps380f.exception.LectureNotFound;
 import ouhk.comps380f.model.Attachment;
 import ouhk.comps380f.model.Lecture;
@@ -115,7 +116,8 @@ public class LectureController {
 
     @RequestMapping(value = "delete/{lectureId}", method = RequestMethod.GET)
     public String deleteLecture(@PathVariable("lectureId") long lectureId)
-            throws LectureNotFound {
+            throws LectureNotFound, CommentNotFound {
+        commentService.delAllComment(lectureId);
         lectureService.delete(lectureId);
         return "redirect:/lecture/list";
     }

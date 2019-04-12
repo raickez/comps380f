@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Customer Support</title>
+    <title>Create a User</title>
 </head>
 <body>
 <c:url var="logoutUrl" value="/logout"/>

@@ -19,9 +19,10 @@ INSERT INTO user_roles(username, role) VALUES ('oliver', 'ROLE_USER');
 INSERT INTO users VALUES ('dan', 'danpw');
 INSERT INTO user_roles(username, role) VALUES ('dan', 'ROLE_USER');
 
-/*
+
 INSERT INTO comment(username,lecture_id,comment) VALUES ('keith',1,'Welcome to my class!');
 INSERT INTO comment(username,lecture_id,comment) VALUES ('dan',1,'Hello Keith!');
 
- no attachment and poll yet
-INSERT INTO poll (response1,response2,response3,response4,responsecount1,responsecount2,responsecount3,responsecount4,)*/
+INSERT INTO poll(question,response1,response2,response3,response4) VALUES ('What date do you prefer for the midterm test?','1st Apr,2019','2nd Apr,2019','3rd Apr,2019','4th Apr,2019');
+INSERT INTO pollresponse(poll_id,username,response) VALUES (1,'dan','1st Apr,2019');
+INSERT INTO pollresponse(poll_id,username,response) VALUES (1,'oliver','2nd Apr,2019');

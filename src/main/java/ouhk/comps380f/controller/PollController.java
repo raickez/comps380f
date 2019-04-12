@@ -10,29 +10,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
-import ouhk.comps380f.model.Lecture;
+import ouhk.comps380f.model.Poll;
 import ouhk.comps380f.service.PollService;
-import ouhk.comps380f.service.LectureService;
 import ouhk.comps380f.exception.PollNotFound;
 
 @Controller
 @RequestMapping("lecture")
 public class PollController {
 
-    //private Map<Integer, Comment> commentDatabase = new Hashtable<>();
-
-    /*@Resource
-    CommentRepository commentRepo;*/
     @Autowired
     private PollService pollService;
 
-    @Autowired
-    private LectureService lectureService;
-
     public static class addPollForm {
+
         private long poll_id;
         private String question;
-        private String response1,response2,response3,response4;
+        private String response1, response2, response3, response4;
 
         public long getPoll_id() {
             return poll_id;
@@ -81,19 +74,63 @@ public class PollController {
         public void setResponse4(String response4) {
             this.response4 = response4;
         }
-        
-        
-    }
 
-    @RequestMapping(value = "/poll/list/addPoll", method = RequestMethod.GET)
-    public ModelAndView createForm(@PathVariable("lectureId") long lectureId, ModelMap model) {
-        Poll poll = pollService.getPoll(lectureId);
-        if (lecture == null) {
-            return new ModelAndView("list");
+    }
+    
+    public static class ansPollForm{
+        private long poll_id;
+        private String username;
+        private String response;
+
+        public long getPoll_id() {
+            return poll_id;
         }
-        model.addAttribute("poll", poll);
-        return new ModelAndView("poll", "pollForm", new addPollForm());
+
+        public void setPoll_id(long poll_id) {
+            this.poll_id = poll_id;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getResponse() {
+            return response;
+        }
+
+        public void setResponse(String response) {
+            this.response = response;
+        }
+        
+        
     }
 
+    @RequestMapping(value = "poll/list", method = RequestMethod.GET)
+    public String listPoll(ModelMap model) {
+        model.addAttribute("pollDatabase", pollService.getPolls());
+        return "poll";
+    }
+
+    @RequestMapping(value = "poll/list/addPoll", method = RequestMethod.GET)
+    public ModelAndView createForm() {
+        return new ModelAndView("addPoll", "pollForm", new addPollForm());
+    }
+
+    @RequestMapping(value = "poll/list/addPoll", method = RequestMethod.POST)
+    public String addPollFrom(addPollForm form,
+            ModelMap model, HttpServletRequest request) throws Exception {
+        pollService.createPoll(form.getQuestion(), form.getResponse1(), form.getResponse2(), form.getResponse3(), form.getResponse4());
+        return "redirect:/lecture/poll/list";
+    }
+
+    @RequestMapping(value = "/poll/{poll_id}", method = RequestMethod.GET)
+    public ModelAndView createAnsForm(@PathVariable("poll_id") long poll_id,ModelMap model) {
+        //model.addAttribute("pollDatabase", pollService.getPoll(poll_id));
+        return new ModelAndView("viewPoll", "ansPollForm", new ansPollForm());
+    }
 
 }

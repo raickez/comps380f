@@ -13,17 +13,17 @@
         </form>
 
         <h2>Create a Poll</h2>
-        <form:form method="POST" modelAttribute="commentForm">
-            <form:label path="question">Question</form:label>
-            <form:input type="text" path="question"/>
-            <form:label path="response1">Answer1</form:label>
-            <form:input type="text" path="response1"/>
-            <form:label path="response2">Answer2</form:label>
-            <form:input type="text" path="response2"/>
-            <form:label path="response3">Answer3</form:label>
-            <form:input type="text" path="response3"/>
-            <form:label path="response4">Answer4</form:label>
-            <form:input type="text" path="response4"/>
+        <form:form method="POST" modelAttribute="pollForm">
+            <form:label path="question">Question:</form:label><br>
+            <form:textarea path="question" rows="5" cols="50" /><br>
+            <form:label path="response1">Answer1:</form:label><br>
+            <form:textarea path="response1" rows="5" cols="50" /><br>
+            <form:label path="response2">Answer2:</form:label><br>
+            <form:textarea path="response2" rows="5" cols="50" /><br>
+            <form:label path="response3">Answer3:</form:label><br>
+            <form:textarea path="response3" rows="5" cols="50" /><br>
+            <form:label path="response4">Answer4:</form:label><br>
+            <form:textarea path="response4" rows="5" cols="50" /><br><br>
             <input type="submit" value="Submit"/>
         </form:form>
 

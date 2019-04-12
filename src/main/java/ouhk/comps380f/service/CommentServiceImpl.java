@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ouhk.comps380f.dao.CommentRepository;
 import ouhk.comps380f.model.Comment;
 import ouhk.comps380f.model.Lecture;
+import ouhk.comps380f.exception.CommentNotFound;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -20,21 +21,21 @@ public class CommentServiceImpl implements CommentService {
         return commentRepo.findAllByLectureId(lectureId);
     }
 
+    @Override
+    @Transactional(rollbackFor = CommentNotFound.class)
+    public void delComment(long id) throws CommentNotFound {
+        Comment deletedComment = commentRepo.findOne(id);
+        if (deletedComment == null) {
+            throw new CommentNotFound();
+        }
+        commentRepo.delete(deletedComment);
+    }
+
     /*
     @Override
     @Transactional
     public List<Comment> getLectures() {
         return commentRepo.findAll();
-    }
-
-    @Override
-    @Transactional(rollbackFor = LectureNotFound.class)
-    public void delete(long id) throws LectureNotFound {
-        Lecture deletedLecture = lectureRepo.findOne(id);
-        if (deletedLecture == null) {
-            throw new LectureNotFound();
-        }
-        lectureRepo.delete(deletedLecture);
     }
 
     @Override

@@ -44,7 +44,10 @@
                     <c:forEach items="${commentDatabase}" var="entry">
                         <tr>
                             <td><c:out value="${entry.username}" /></td>
-                            <td><c:out value="${entry.comment}" /></td>
+                            <td><c:out value="${entry.comment}" />
+                                <security:authorize access="hasRole('ADMIN') or principal.username=='${entry.username}'">
+                                [<a href="<c:url value="deleteComment/${lectureId}/${entry.id}" />">Delete</a>]
+                            </security:authorize></td>
                         </tr>
                     </c:forEach>
                 </c:otherwise>

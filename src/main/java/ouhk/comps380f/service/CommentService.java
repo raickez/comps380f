@@ -13,14 +13,14 @@ public interface CommentService {
             long lecture_id) throws Exception;
     
     public List<Comment> getComment(long lectureId);
+    
+    public void delComment(long id) throws CommentNotFound;
 
     /*public List<Lecture> getLectures();
 
     public void updateLecture(long id, String subject,
             String body, List<MultipartFile> attachments)
             throws IOException, LectureNotFound;
-
-    public void delete(long id) throws LectureNotFound;
 
     public void deleteAttachment(long lectureId, String name)
             throws AttachmentNotFound;*/

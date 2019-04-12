@@ -25,6 +25,10 @@ public interface PollService {
     public long countAllByPollIdAndResponse(long poll_id,String response);
 
     public String findResponseByPollIdAndUsername(long poll_id,String username);
+    
+    public void delPoll(long poll_id) throws Exception;
+    
+    
     /*public List<Lecture> getLectures();
 
     public void updateLecture(long id, String subject,

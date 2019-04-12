@@ -5,7 +5,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ouhk.comps380f.dao.PollRepository;
+import ouhk.comps380f.dao.PollResponseRepository;
 import ouhk.comps380f.model.Poll;
+import ouhk.comps380f.model.PollResponse;
 
 @Service
 public class PollServiceImpl implements PollService {
@@ -13,17 +15,20 @@ public class PollServiceImpl implements PollService {
     @Resource
     private PollRepository pollRepo;
 
+    @Resource
+    private PollResponseRepository pollResponseRepo;
+
     @Override
     @Transactional
     public List<Poll> getPolls() {
         return pollRepo.findAll();
     }
 
-    /*@Override
+    @Override
     @Transactional
-    public List<Poll> getPoll(long poll_id) {
-        return pollRepo.findAllByPollId(poll_id);
-    }*/
+    public Poll getPoll(long poll_id) {
+        return pollRepo.findOne(poll_id);
+    }
 
     /*@Override
     @Transactional(rollbackFor = CommentNotFound.class)
@@ -70,6 +75,19 @@ public class PollServiceImpl implements PollService {
 
         Poll savedPoll = pollRepo.save(poll);
         return savedPoll.getPoll_id();
+    }
+
+    @Override
+    @Transactional
+    public long ansPoll(long poll_id, String username, String response) throws Exception {
+        PollResponse pollResponse = new PollResponse();
+        
+        pollResponse.setPoll_id(poll_id);
+        pollResponse.setUsername(username);
+        pollResponse.setResponse(response);
+
+        PollResponse savedPollResponse = pollResponseRepo.save(pollResponse);
+        return savedPollResponse.getId();
     }
 
     /*(@Override

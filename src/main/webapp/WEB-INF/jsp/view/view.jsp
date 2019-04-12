@@ -55,7 +55,7 @@
 
         </table><br>
 
-        <a href="<c:url value="/lecture/${lectureId}/comment"/>">Leave Comment</a><br>
+        <a href="<c:url value="/lecture/${lectureId}/comment"/>">Leave Comment</a><br><br>
         <a href="<c:url value="/lecture" />">Return to list lectures</a>
     </body>
 </html>

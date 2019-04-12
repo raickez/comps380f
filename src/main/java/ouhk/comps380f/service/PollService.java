@@ -13,7 +13,9 @@ public interface PollService {
     
     public List<Poll> getPolls();
     
-    //public List<Poll> getPoll(long poll_id);
+    public Poll getPoll(long poll_id);
+    
+    public long ansPoll(long poll_id,String username,String response) throws Exception;
     
     //public void delComment(long id) throws CommentNotFound;
 

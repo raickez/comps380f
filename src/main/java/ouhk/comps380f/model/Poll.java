@@ -18,6 +18,7 @@ public class Poll implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long poll_id;
     
+    @Column(name = "question")
     private String question;
 
     private String response1;
@@ -72,7 +73,4 @@ public class Poll implements Serializable {
     public void setResponse4(String response4) {
         this.response4 = response4;
     }
-    
-    
-
 }

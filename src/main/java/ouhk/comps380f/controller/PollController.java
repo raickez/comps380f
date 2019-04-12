@@ -76,8 +76,9 @@ public class PollController {
         }
 
     }
-    
-    public static class ansPollForm{
+
+    public static class ansPollForm {
+
         private long poll_id;
         private String username;
         private String response;
@@ -105,8 +106,7 @@ public class PollController {
         public void setResponse(String response) {
             this.response = response;
         }
-        
-        
+
     }
 
     @RequestMapping(value = "poll/list", method = RequestMethod.GET)
@@ -128,9 +128,16 @@ public class PollController {
     }
 
     @RequestMapping(value = "/poll/{poll_id}", method = RequestMethod.GET)
-    public ModelAndView createAnsForm(@PathVariable("poll_id") long poll_id,ModelMap model) {
-        //model.addAttribute("pollDatabase", pollService.getPoll(poll_id));
+    public ModelAndView createAnsForm(@PathVariable("poll_id") long poll_id, ModelMap model) {
+        model.addAttribute("pollDatabase", pollService.getPoll(poll_id));
         return new ModelAndView("viewPoll", "ansPollForm", new ansPollForm());
+    }
+
+    @RequestMapping(value = "/poll/{poll_id}", method = RequestMethod.POST)
+    public String ansPoll(@PathVariable("poll_id") long poll_id,ansPollForm form,
+            ModelMap model, HttpServletRequest request) throws Exception {
+        pollService.ansPoll(poll_id,request.getUserPrincipal().getName(),form.getResponse());
+        return "redirect:/lecture/poll/list";
     }
 
 }

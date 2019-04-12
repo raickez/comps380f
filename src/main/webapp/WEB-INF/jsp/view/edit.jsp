@@ -5,7 +5,7 @@
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
         <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
         <!--<link rel="stylesheet" href="/css/add.css">-->
-        <title>Customer Support</title>
+        <title>Edit the Lecture</title>
         <style>
             .files input {
                 outline: 2px dashed #92b0b3;

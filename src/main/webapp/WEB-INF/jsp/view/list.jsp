@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>COMPS380F</title>
+        <title>COMPS380F Web Applications: Design and Development</title>
     </head>
     <body>
         <c:url var="logoutUrl" value="/logout"/>
@@ -10,7 +10,7 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
 
-        <h2>COMPS380F</h2>
+        <h2>COMPS380F Web Applications: Design and Development</h2>
         <security:authorize access="hasRole('ADMIN')">    
             <a href="<c:url value="/user" />">Manage User Accounts</a><br /><br />
         </security:authorize>

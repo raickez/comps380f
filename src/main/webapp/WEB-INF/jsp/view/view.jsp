@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Customer Support</title>
+        <title>Lecture</title>
     </head>
     <body>
         <c:url var="logoutUrl" value="/logout"/>
@@ -37,7 +37,7 @@
             <c:choose>
                 <c:when test="${fn:length(commentDatabase) == 0}">
                     <tr>
-                        <td colspan="2"><i>There are no tickets in the system.</i></td>
+                        <td colspan="2"><i>There are no comments.</i></td>
                     </tr>
                 </c:when>
                 <c:otherwise>

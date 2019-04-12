@@ -31,6 +31,24 @@ public class PollServiceImpl implements PollService {
         return pollRepo.findOne(poll_id);
     }
 
+    @Override
+    @Transactional
+    public long countAllByPollId(long poll_id) {
+        return pollResponseRepo.countAllByPollId(poll_id);
+    }
+
+    @Override
+    @Transactional
+    public long countAllByPollIdAndResponse(long poll_id, String response) {
+        return pollResponseRepo.countAllByPollIdAndResponse(poll_id, response);
+    }
+
+    @Override
+    @Transactional
+    public String findResponseByPollIdAndUsername(long poll_id,String username) {
+        return pollResponseRepo.findResponseByPollIdAndUsername(poll_id,username);
+    }
+
     /*@Override
     @Transactional(rollbackFor = CommentNotFound.class)
     public void delComment(long id) throws CommentNotFound {
@@ -68,11 +86,11 @@ public class PollServiceImpl implements PollService {
         PollResponse deletedPollAns = pollResponseRepo.findByPollIdAndUsername(poll_id, username);
         if (deletedPollAns == null) {
             PollResponse savedPollResponse = pollResponseRepo.save(pollResponse);
-        }else{
-        pollResponseRepo.delete(deletedPollAns);
-        PollResponse savedPollResponse = pollResponseRepo.save(pollResponse);}
+        } else {
+            pollResponseRepo.delete(deletedPollAns);
+            PollResponse savedPollResponse = pollResponseRepo.save(pollResponse);
+        }
 
-        
     }
 
     @Override

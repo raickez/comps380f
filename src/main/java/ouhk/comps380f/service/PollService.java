@@ -19,7 +19,12 @@ public interface PollService {
     public void ansPoll(long poll_id,String username,String response) throws Exception;
     
     public void delPollAns(long id,String username) throws Exception;
+    
+    public long countAllByPollId(long poll_id);
+    
+    public long countAllByPollIdAndResponse(long poll_id,String response);
 
+    public String findResponseByPollIdAndUsername(long poll_id,String username);
     /*public List<Lecture> getLectures();
 
     public void updateLecture(long id, String subject,

@@ -8,11 +8,11 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <title>Poll Page</title>
+        <title>投票</title>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Question #${pollDatabase.poll_id}:${pollDatabase.question}</a>
+            <a class="navbar-brand" href="#">問題 #${pollDatabase.poll_id}:${pollDatabase.question}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -26,7 +26,7 @@
                     <security:authorize access="isAuthenticated()">
                         <c:url var="logoutUrl" value="/logout"/>
                         <form action="${logoutUrl}" method="post">
-                            <input type="submit" value="Log out" class="btn btn-primary"/>
+                            <input type="submit" value="登出" class="btn btn-primary"/>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         </form>
                     </security:authorize>
@@ -36,12 +36,12 @@
 
         <div class="container">
             <br>
-            <p class="text-monospace">There are ${pollAllCount} votes.</p>
+            <p class="text-monospace">總共有 ${pollAllCount} 票.</p>
             
             <c:set var = "Ivoted" value = "${Ivote}"/>
             <c:choose>
                 <c:when test="${Ivoted==null}"><p class="text-monospace">You haven't vote.</p></c:when>
-                <c:otherwise> <p class="text-monospace">You voted to ${Ivote}.</p></c:otherwise>
+                <c:otherwise> <p class="text-monospace">你投給了 ${Ivote}.</p></c:otherwise>
             </c:choose>
                 
             <form:form method="POST" modelAttribute="ansPollForm">
@@ -73,7 +73,7 @@
                 <input type="submit" value="Submit" class="btn btn-success"/>
             </form:form>
             <br>
-            <a href="<c:url value="/lecture/poll/list" />">Return to poll page</a>
+            <a href="<c:url value="/lecture/poll/zh/list" />">返回投票頁</a>
         </div>
     </body>
 </html>

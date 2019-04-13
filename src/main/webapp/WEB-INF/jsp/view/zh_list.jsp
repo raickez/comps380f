@@ -6,28 +6,28 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <title>COMPS380F Web Applications: Design and Development</title>
+        <title>COMPS380F 網頁應用程式: 設計和開發</title>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">COMPS380F Web Applications: Design and Development</a>
+            <a class="navbar-brand" href="#">COMPS380F 網頁應用程式: 設計和開發</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="<c:url value="/lecture/poll/list" />">Poll Page</a>
+                        <a class="nav-link" href="<c:url value="/lecture/poll/zh/list" />">投票</a>
                     </li>
                     <security:authorize access="hasRole('ADMIN')"> 
                         <li class="nav-item">
-                            <a class="nav-link" href="<c:url value="/user" />">Manage User Accounts</a>
+                            <a class="nav-link" href="<c:url value="/user/zh" />">管理用戶帳戶</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<c:url value="/lecture/create" />">Add a Lecture</a>
+                            <a class="nav-link" href="<c:url value="/lecture/zh/create" />">新增講課</a>
                         </li>
                     </security:authorize>
-                    <li class="nav-item"><a class="nav-link" href="<c:url value="/lecture/zh/list" />">中文</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<c:url value="/lecture/list" />">English</a></li>
                 </ul>
                 <span class="navbar-text">
                     <security:authorize access="!isAuthenticated()">
@@ -38,7 +38,7 @@
                     <security:authorize access="isAuthenticated()">
                         <c:url var="logoutUrl" value="/logout"/>
                         <form action="${logoutUrl}" method="post">
-                            <input type="submit" value="Log out" class="btn btn-primary"/>
+                            <input type="submit" value="登出" class="btn btn-primary"/>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         </form>
                     </security:authorize>
@@ -49,20 +49,20 @@
         <div class="container-fluid">
             <c:choose>
                 <c:when test="${fn:length(lectureDatabase) == 0}">
-                    <i>There are no lectures in the system.</i>
+                    <i>系統沒有講課資料.</i>
                 </c:when>
                 <c:otherwise>
                     <ul class="list-group list-group-flush">
                         <c:forEach items="${lectureDatabase}" var="lecture">
-                            <li class="list-group-item">Lecture ${lecture.id}:
-                                <a href="<c:url value="/lecture/view/${lecture.id}" />">
+                            <li class="list-group-item">講課 ${lecture.id}:
+                                <a href="<c:url value="/lecture/zh/view/${lecture.id}" />">
                                     <c:out value="${lecture.subject}" /></a>
                                     <security:authorize access="isAuthenticated() and (hasRole('ADMIN') or
                                                         principal.username=='${lecture.customerName}')">
-                                    [<a href="<c:url value="/lecture/edit/${lecture.id}" />" class="text-warning">Edit</a>]
+                                    [<a href="<c:url value="/lecture/zh/edit/${lecture.id}" />" class="text-warning">修改</a>]
                                 </security:authorize>
                                 <security:authorize access="isAuthenticated() and (hasRole('ADMIN'))">            
-                                    [<a href="<c:url value="/lecture/delete/${lecture.id}" />" class="text-danger">Delete</a>]
+                                    [<a href="<c:url value="/lecture/zh/delete/${lecture.id}" />" class="text-danger">刪除</a>]
                                 </security:authorize>
                             </li>
                         </c:forEach>

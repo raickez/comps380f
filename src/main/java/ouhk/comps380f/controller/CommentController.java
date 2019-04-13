@@ -100,5 +100,28 @@ public class CommentController {
         return new RedirectView("/lecture/view/" + lectureId, true);
     }
 
+    //中文
+    @RequestMapping(value = "/{lectureId}/zh/comment", method = RequestMethod.GET)
+    public ModelAndView zh_createForm(@PathVariable("lectureId") long lectureId, ModelMap model) {
+        Lecture lecture = lectureService.getLecture(lectureId);
+        if (lecture == null) {
+            return new ModelAndView("list");
+        }
+        model.addAttribute("lecture", lecture);
+        return new ModelAndView("zh_comment", "commentForm", new cmForm());
+    }
 
+    @RequestMapping(value = "{lectureId}/zh/comment", method = RequestMethod.POST)
+    public View zh_addComment(@PathVariable("lectureId") long lectureId, cmForm form,
+            ModelMap model, HttpServletRequest request) throws Exception {
+        commentService.createComment(request.getUserPrincipal().getName(), form.getComment(), form.getLecture_id());
+        return new RedirectView("/lecture/zh/view/" + lectureId, true);
+    }
+
+    @RequestMapping(value = "zh/view/deleteComment/{lectureId}/{Id}", method = RequestMethod.GET)
+    public View zh_delComment(@PathVariable("Id") long Id, @PathVariable("lectureId") long lectureId)
+            throws CommentNotFound {
+        commentService.delComment(Id);
+        return new RedirectView("/lecture/zh/view/" + lectureId, true);
+    }
 }

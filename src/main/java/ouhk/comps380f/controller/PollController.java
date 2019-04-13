@@ -152,4 +152,47 @@ public class PollController {
         return "redirect:/lecture/poll/list";
     }
 
+    //中文
+    @RequestMapping(value = "poll/zh/list", method = RequestMethod.GET)
+    public String zh_listPoll(ModelMap model) {
+        model.addAttribute("pollDatabase", pollService.getPolls());
+        return "zh_poll";
+    }
+
+    @RequestMapping(value = "/poll/zh/{poll_id}", method = RequestMethod.GET)
+    public ModelAndView zh_createAnsForm(@PathVariable("poll_id") long poll_id, ModelMap model, HttpServletRequest request) {
+        model.addAttribute("pollDatabase", pollService.getPoll(poll_id));
+        model.addAttribute("pollAllCount", pollService.countAllByPollId(poll_id));
+        model.addAttribute("pollCount1", pollService.countAllByPollIdAndResponse(poll_id, pollService.getPoll(poll_id).getResponse1()));
+        model.addAttribute("pollCount2", pollService.countAllByPollIdAndResponse(poll_id, pollService.getPoll(poll_id).getResponse2()));
+        model.addAttribute("pollCount3", pollService.countAllByPollIdAndResponse(poll_id, pollService.getPoll(poll_id).getResponse3()));
+        model.addAttribute("pollCount4", pollService.countAllByPollIdAndResponse(poll_id, pollService.getPoll(poll_id).getResponse4()));
+        model.addAttribute("Ivote", pollService.findResponseByPollIdAndUsername(poll_id, request.getUserPrincipal().getName()));
+        return new ModelAndView("zh_viewPoll", "ansPollForm", new ansPollForm());
+    }
+
+    @RequestMapping(value = "/poll/zh/{poll_id}", method = RequestMethod.POST)
+    public String zh_ansPoll(@PathVariable("poll_id") long poll_id, ansPollForm form,
+            ModelMap model, HttpServletRequest request) throws Exception {
+        pollService.ansPoll(poll_id, request.getUserPrincipal().getName(), form.getResponse());
+        return "redirect:/lecture/poll/zh/{poll_id}";
+    }
+
+    @RequestMapping(value = "poll/zh/list/addPoll", method = RequestMethod.GET)
+    public ModelAndView zh_createForm() {
+        return new ModelAndView("zh_addPoll", "pollForm", new addPollForm());
+    }
+
+    @RequestMapping(value = "poll/zh/list/addPoll", method = RequestMethod.POST)
+    public String zh_addPollFrom(addPollForm form,
+            ModelMap model, HttpServletRequest request) throws Exception {
+        pollService.createPoll(form.getQuestion(), form.getResponse1(), form.getResponse2(), form.getResponse3(), form.getResponse4());
+        return "redirect:/lecture/poll/zh/list";
+    }
+
+    @RequestMapping(value = "/poll/zh/delete/{poll_id}", method = RequestMethod.GET)
+    public String zh_delPoll(@PathVariable("poll_id") long poll_id) throws Exception {
+        pollService.delPoll(poll_id);
+        return "redirect:/lecture/poll/zh/list";
+    }
 }

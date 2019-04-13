@@ -8,7 +8,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <!--<link rel="stylesheet" href="/css/add.css">-->
-        <title>Edit the Lecture</title>
+        <title>新增講課</title>
         <style>
             .files input {
                 outline: 2px dashed #92b0b3;
@@ -59,7 +59,7 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Lecture ${lecture.id}</a>
+            <a class="navbar-brand" href="#">新增講課</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -74,7 +74,7 @@
                     <security:authorize access="isAuthenticated()">
                         <c:url var="logoutUrl" value="/logout"/>
                         <form action="${logoutUrl}" method="post">
-                            <input type="submit" value="Log out" class="btn btn-primary"/>
+                            <input type="submit" value="登出" class="btn btn-primary"/>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         </form>
                     </security:authorize>
@@ -83,41 +83,30 @@
         </nav>
 
 
-       <div class="container">
-           <br>
-        <form:form method="POST" enctype="multipart/form-data" modelAttribute="lectureForm">
-            <div class="form-group">
-            <form:label path="subject" class="font-weight-bold">Subject</form:label><br/>
-            <form:textarea path="subject" rows="2" cols="50" placeholder="Leave Comment Here" class="form-control" required="required"/>
-            </div>
-            <c:if test="${fn:length(lecture.attachments) > 0}">
+        <div class="container">
+            <br>
+            <form:form method="POST" enctype="multipart/form-data" modelAttribute="lectureForm">
                 <div class="form-group">
-                <b>Lecture Materials</b><br/>
-                <ul class="list-group list-group-flush">
-                    <c:forEach items="${lecture.attachments}" var="attachment">
-                        <li class="list-group-item">
-                            <c:out value="${attachment.name}" />
-                            [<a class="text-danger" href="<c:url
-                                    value="/lecture/${lecture.id}/delete/${attachment.name}"
-                                    />">Delete</a>]
-                        </li>
-                    </c:forEach>
-                </ul>
+                    <form:label path="subject" class="font-weight-bold">標題</form:label><br/>
+                    <form:textarea path="subject" rows="2" cols="50" placeholder="Leave Comment Here" class="form-control" required="required"/>
                 </div>
-            </c:if>
-            <b>Upload Materials</b><br /><br />
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group files">
-                            <input type="file" name="attachments" multiple="multiple" class="form-control"/>
+                <b>上載教材</b><br /><br />
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group files">
+                                <input type="file" name="attachments" multiple="multiple" class="form-control"/>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <input type="submit" value="Save" class="btn btn-success"/><br/><br/>
-        </form:form>
-        <a href="<c:url value="/lecture" />">Return to list lectures</a>
-       </div>
+                <br/>
+                <input type="submit" value="新增" class="btn btn-success"/>
+            </form:form>
+            <br>
+            <form action="<c:url value="/lecture/zh/list" />" method="GET">
+                <input type="submit" value="取消" class="btn btn-secondary"/>
+            </form>
+        </div>
     </body>
 </html>

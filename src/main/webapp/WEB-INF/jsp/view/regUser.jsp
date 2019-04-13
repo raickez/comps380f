@@ -27,6 +27,10 @@
             <form action="<c:url value="/login" />" method="get">
                 <input type="submit" value="Login" class="btn btn-success"/>
             </form>
+                <br>
+            <c:if test="${param.error != null}">
+                <p class="text-danger">Registration failed! Username already used by another user.</p>
+            </c:if>
         </div>
     </body>
 </html>

@@ -76,4 +76,31 @@ public class LectureUserController {
         lectureUserRepo.delete(lectureUserRepo.findOne(username));
         return new RedirectView("/user/list", true);
     }
+
+    //中文
+    @RequestMapping(value = "zh", method = RequestMethod.GET)
+    public String zh_list(ModelMap model) {
+        model.addAttribute("lectureUsers", lectureUserRepo.findAll());
+        return "zh_listUser";
+    }
+
+    @RequestMapping(value = "zh/create", method = RequestMethod.GET)
+    public ModelAndView zh_create() {
+        return new ModelAndView("zh_addUser", "lectureUser", new Form());
+    }
+
+    @RequestMapping(value = "zh/create", method = RequestMethod.POST)
+    public View zh_create(Form form) throws IOException {
+        LectureUser user = new LectureUser(form.getUsername(),
+                form.getPassword(), form.getRoles()
+        );
+        lectureUserRepo.save(user);
+        return new RedirectView("/user/zh", true);
+    }
+
+    @RequestMapping(value = "zh/delete/{username}", method = RequestMethod.GET)
+    public View zh_deleteLecture(@PathVariable("username") String username) {
+        lectureUserRepo.delete(lectureUserRepo.findOne(username));
+        return new RedirectView("/user/zh", true);
+    }
 }

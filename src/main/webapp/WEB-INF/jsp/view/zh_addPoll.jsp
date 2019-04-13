@@ -8,17 +8,16 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <title>Add a New Comment</title>
+        <title>新增投票</title>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Add a New Comment</a>
+            <a class="navbar-brand" href="#">新增投票</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
-
                 </ul>
                 <span class="navbar-text">
                     <security:authorize access="!isAuthenticated()">
@@ -27,7 +26,7 @@
                     <security:authorize access="isAuthenticated()">
                         <c:url var="logoutUrl" value="/logout"/>
                         <form action="${logoutUrl}" method="post">
-                            <input type="submit" value="Log out" class="btn btn-primary"/>
+                            <input type="submit" value="登出" class="btn btn-primary"/>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         </form>
                     </security:authorize>
@@ -37,17 +36,32 @@
 
         <div class="container">
             <br>
-            <form:form method="POST" modelAttribute="commentForm">
+            <form:form method="POST" modelAttribute="pollForm">
                 <div class="form-group">
-                    <form:textarea path="comment" rows="5" cols="50" placeholder="Leave Comment Here" class="form-control" required="required"/>
+                    <form:label path="question">問題:</form:label><br>
+                    <form:textarea path="question" rows="2" cols="50" class="form-control" required="required"/>
                 </div>
-                <form:hidden path="username" value="${principal.username}"/>
-                <form:hidden path="lecture_id" value="${lecture.id}"/>
-                <input type="submit" value="Comment" class="btn btn-success"/>
+                <div class="form-group">
+                    <form:label path="response1">選擇1:</form:label><br>
+                    <form:textarea path="response1" rows="2" cols="50" class="form-control" required="required"/>
+                </div>
+                <div class="form-group">
+                    <form:label path="response2">選擇2:</form:label><br>
+                    <form:textarea path="response2" rows="2" cols="50" class="form-control" required="required"/>
+                </div>
+                <div class="form-group">
+                    <form:label path="response3">選擇3:</form:label><br>
+                    <form:textarea path="response3" rows="2" cols="50" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <form:label path="response4">選擇4:</form:label><br>
+                    <form:textarea path="response4" rows="2" cols="50" class="form-control"/>
+                </div>
+                <input type="submit" value="新增" class="btn btn-success"/>
             </form:form>
-            <br/>
-            <form action="<c:url value="/lecture" />" method="GET">
-                <input type="submit" value="Cancel" class="btn btn-secondary"/>
+            <br>
+            <form action="<c:url value="/lecture/poll/zh/list" />" method="GET">
+                <input type="submit" value="取消" class="btn btn-secondary"/>
             </form>
         </div>
     </body>

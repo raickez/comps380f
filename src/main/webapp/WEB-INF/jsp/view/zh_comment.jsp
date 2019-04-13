@@ -8,11 +8,11 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <title>Add a New Comment</title>
+        <title>新增留言</title>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Add a New Comment</a>
+            <a class="navbar-brand" href="#">新增留言</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -27,7 +27,7 @@
                     <security:authorize access="isAuthenticated()">
                         <c:url var="logoutUrl" value="/logout"/>
                         <form action="${logoutUrl}" method="post">
-                            <input type="submit" value="Log out" class="btn btn-primary"/>
+                            <input type="submit" value="登出" class="btn btn-primary"/>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         </form>
                     </security:authorize>
@@ -39,15 +39,15 @@
             <br>
             <form:form method="POST" modelAttribute="commentForm">
                 <div class="form-group">
-                    <form:textarea path="comment" rows="5" cols="50" placeholder="Leave Comment Here" class="form-control" required="required"/>
+                    <form:textarea path="comment" rows="5" cols="50" placeholder="在這裡留言" class="form-control" required="required"/>
                 </div>
                 <form:hidden path="username" value="${principal.username}"/>
                 <form:hidden path="lecture_id" value="${lecture.id}"/>
-                <input type="submit" value="Comment" class="btn btn-success"/>
+                <input type="submit" value="留言" class="btn btn-success"/>
             </form:form>
             <br/>
-            <form action="<c:url value="/lecture" />" method="GET">
-                <input type="submit" value="Cancel" class="btn btn-secondary"/>
+            <form action="<c:url value="/lecture/zh/list" />" method="GET">
+                <input type="submit" value="取消" class="btn btn-secondary"/>
             </form>
         </div>
     </body>

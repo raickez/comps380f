@@ -1,22 +1,32 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
         <title>Registration</title>
     </head>
     <body>
-        <h2>Registration</h2>
-        <form:form method="POST" enctype="multipart/form-data"
-                   modelAttribute="lectureUser">
-            <form:label path="username">Username</form:label><br/>
-            <form:input type="text" path="username" /><br/><br/>
-            <form:label path="password">Password</form:label><br/>
-            <form:input type="text" path="password" /><br/><br/>
-            <form:hidden path="roles" value="ROLE_USER" />
-            <input type="submit" value="Register"/>
-        </form:form>
+        <div class="container">
+            <br><br>
+            <h2>Registration</h2>
+            <form:form method="POST" enctype="multipart/form-data"
+                       modelAttribute="lectureUser">
+                <div class="form-group">
+                    <form:label path="username">Username</form:label><br/>
+                    <form:input type="text" path="username" class="form-control" required="required"/>
+                </div>
+                <div class="form-group">
+                    <form:label path="password">Password</form:label><br/>
+                    <form:input type="text" path="password" class="form-control" required="required"/>
+                </div>
+                <form:hidden path="roles" value="ROLE_USER" />
+                <input type="submit" value="Register" class="btn btn-primary"/>
+            </form:form>
             <br/>
-        <form action="<c:url value="/login" />" method="get">
-            <input type="submit" value="Login" />
-        </form>
+            <form action="<c:url value="/login" />" method="get">
+                <input type="submit" value="Login" class="btn btn-success"/>
+            </form>
+        </div>
     </body>
 </html>

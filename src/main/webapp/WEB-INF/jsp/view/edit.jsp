@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <!--<link rel="stylesheet" href="/css/add.css">-->
         <title>Edit the Lecture</title>
         <style>
@@ -55,43 +58,66 @@
         </style>
     </head>
     <body>
-        <c:url var="logoutUrl" value="/logout"/>
-        <form action="${logoutUrl}" method="post">
-            <input type="submit" value="Log out" />
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        </form>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Lecture ${lecture.id}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
 
-        <h2>Lecture ${lecture.id}</h2>
-        <form:form method="POST" enctype="multipart/form-data"
-                   modelAttribute="lectureForm">   
-            <form:label path="subject">Subject</form:label><br/>
-            <form:input type="text" path="subject" /><br/><br/>
+                </ul>
+                <span class="navbar-text">
+                    <security:authorize access="!isAuthenticated()">
+                        <a href="<c:url value="/login"/>">Login</a>
+                    </security:authorize>
+                    <security:authorize access="isAuthenticated()">
+                        <c:url var="logoutUrl" value="/logout"/>
+                        <form action="${logoutUrl}" method="post">
+                            <input type="submit" value="Log out" class="btn btn-primary"/>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        </form>
+                    </security:authorize>
+                </span>
+            </div>
+        </nav>
+
+
+       <div class="container">
+           <br>
+        <form:form method="POST" enctype="multipart/form-data" modelAttribute="lectureForm">
+            <div class="form-group">
+            <form:label path="subject" class="font-weight-bold">Subject</form:label><br/>
+            <form:textarea path="subject" rows="2" cols="50" placeholder="Leave Comment Here" class="form-control" required="required"/>
+            </div>
             <c:if test="${fn:length(lecture.attachments) > 0}">
+                <div class="form-group">
                 <b>Lecture Materials:</b><br/>
-                <ul>
+                <ul class="list-group list-group-flush">
                     <c:forEach items="${lecture.attachments}" var="attachment">
-                        <li>
+                        <li class="list-group-item">
                             <c:out value="${attachment.name}" />
-                            [<a href="<c:url
+                            [<a class="text-danger" href="<c:url
                                     value="/lecture/${lecture.id}/delete/${attachment.name}"
                                     />">Delete</a>]
                         </li>
                     </c:forEach>
                 </ul>
+                </div>
             </c:if>
-            <b>Lecture Materials</b><br />
+            <b>Upload Materials</b><br /><br />
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group files">
-                            <label>Upload Your File </label>
                             <input type="file" name="attachments" multiple="multiple" class="form-control"/>
                         </div>
                     </div>
                 </div>
             </div>
-            <input type="submit" value="Save"/><br/><br/>
+            <input type="submit" value="Save" class="btn btn-success"/><br/><br/>
         </form:form>
         <a href="<c:url value="/lecture" />">Return to list lectures</a>
+       </div>
     </body>
 </html>

@@ -32,10 +32,6 @@
                 <input type="submit" value="Sign Up" class="btn btn-light"/>
             </form>
             <br>
-            <form action="<c:url value="/zh/login" />" method="GET">
-                <input type="submit" value="中文" class="btn btn-link"/>
-            </form>
-            <br/>
             <c:if test="${param.error != null}">
                 <p class="text-danger">Login failed.</p>
             </c:if>

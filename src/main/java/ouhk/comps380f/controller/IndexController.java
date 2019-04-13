@@ -15,5 +15,10 @@ public class IndexController {
     public String login() {
         return "login";
     }
-    
+
+    @RequestMapping("zh/login")
+    public String zh_login() {
+        return "zh_login";
+    }
+
 }

@@ -34,6 +34,7 @@
         <intercept-url pattern="/lecture/zh/list" access="permitAll" />
         <intercept-url pattern="/lecture/**" access="hasAnyRole('USER','ADMIN')" />
         <form-login login-page="/login" authentication-failure-url="/login?error" />
+        <form-login login-page="/zh/login" authentication-failure-url="/zh/login?error" />
         <logout logout-success-url="/login?logout"
                 invalidate-session="true"
                 delete-cookies="JSESSIONID" />

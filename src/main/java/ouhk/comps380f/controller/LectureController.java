@@ -22,6 +22,7 @@ import ouhk.comps380f.model.Lecture;
 import ouhk.comps380f.service.AttachmentService;
 import ouhk.comps380f.service.LectureService;
 import ouhk.comps380f.service.CommentService;
+import ouhk.comps380f.service.PollService;
 import ouhk.comps380f.view.DownloadingView;
 
 @Controller
@@ -37,9 +38,13 @@ public class LectureController {
     @Autowired
     private AttachmentService attachmentService;
 
+    @Autowired
+    private PollService pollService;
+
     @RequestMapping(value = {"", "list"}, method = RequestMethod.GET)
     public String list(ModelMap model) {
         model.addAttribute("lectureDatabase", lectureService.getLectures());
+        model.addAttribute("pollDatabase", pollService.getPolls());
         return "list";
     }
 
@@ -173,6 +178,7 @@ public class LectureController {
     @RequestMapping(value = "zh/list", method = RequestMethod.GET)
     public String zh_list(ModelMap model) {
         model.addAttribute("lectureDatabase", lectureService.getLectures());
+        model.addAttribute("pollDatabase", pollService.getPolls());
         return "zh_list";
     }
 

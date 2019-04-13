@@ -40,7 +40,7 @@
             
             <c:set var = "Ivoted" value = "${Ivote}"/>
             <c:choose>
-                <c:when test="${Ivoted==null}"><p class="text-monospace">You haven't vote.</p></c:when>
+                <c:when test="${Ivoted==null}"><p class="text-monospace">你還未投票.</p></c:when>
                 <c:otherwise> <p class="text-monospace">你投給了 ${Ivote}.</p></c:otherwise>
             </c:choose>
                 
@@ -48,32 +48,32 @@
                 <div class="form-check">
                     <form:radiobutton class="form-check-input" path="response" value="${pollDatabase.response1}"/>${pollDatabase.response1}
                     <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: ${pollCount1/pollAllCount*100}%" aria-valuenow="${pollCount1}" aria-valuemin="0" aria-valuemax="100">${pollCount1} vote</div>
+                        <div class="progress-bar bg-success" role="progressbar" style="width: ${pollCount1/pollAllCount*100}%" aria-valuenow="${pollCount1}" aria-valuemin="0" aria-valuemax="100">${pollCount1} 票</div>
                     </div><br>
                 </div>
                 <div class="form-check">
                     <form:radiobutton class="form-check-input" path="response" value="${pollDatabase.response2}"/>${pollDatabase.response2}
                     <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: ${pollCount2/pollAllCount*100}%" aria-valuenow="${pollCount2}" aria-valuemin="0" aria-valuemax="100">${pollCount2} vote</div>
+                        <div class="progress-bar bg-success" role="progressbar" style="width: ${pollCount2/pollAllCount*100}%" aria-valuenow="${pollCount2}" aria-valuemin="0" aria-valuemax="100">${pollCount2} 票</div>
                     </div><br>
                 </div>
                 <div class="form-check">
                     <form:radiobutton class="form-check-input" path="response" value="${pollDatabase.response3}"/>${pollDatabase.response3}
                     <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: ${pollCount3/pollAllCount*100}%" aria-valuenow="${pollCount3}" aria-valuemin="0" aria-valuemax="100">${pollCount3} vote</div>
+                        <div class="progress-bar bg-success" role="progressbar" style="width: ${pollCount3/pollAllCount*100}%" aria-valuenow="${pollCount3}" aria-valuemin="0" aria-valuemax="100">${pollCount3} 票</div>
                     </div><br>
                 </div>
                 <div class="form-check">
                     <form:radiobutton class="form-check-input" path="response" value="${pollDatabase.response4}"/>${pollDatabase.response4}
                     <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: ${pollCount4/pollAllCount*100}%" aria-valuenow="${pollCount4}" aria-valuemin="0" aria-valuemax="100">${pollCount4} vote</div>
+                        <div class="progress-bar bg-success" role="progressbar" style="width: ${pollCount4/pollAllCount*100}%" aria-valuenow="${pollCount4}" aria-valuemin="0" aria-valuemax="100">${pollCount4} 票</div>
                     </div><br><br>
                 </div>
                 <form:hidden path="username" value="${principal.username}"/>
-                <input type="submit" value="Submit" class="btn btn-success"/>
+                <input type="submit" value="投票" class="btn btn-success"/>
             </form:form>
             <br>
-            <a href="<c:url value="/lecture/poll/zh/list" />">返回投票頁</a>
+            <a href="<c:url value="/lecture/zh/list" />">返回主頁</a>
         </div>
     </body>
 </html>

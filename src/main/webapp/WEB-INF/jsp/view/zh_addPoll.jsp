@@ -60,7 +60,7 @@
                 <input type="submit" value="新增" class="btn btn-success"/>
             </form:form>
             <br>
-            <form action="<c:url value="/lecture/poll/zh/list" />" method="GET">
+            <form action="<c:url value="/lecture/zh/list" />" method="GET">
                 <input type="submit" value="取消" class="btn btn-secondary"/>
             </form>
         </div>

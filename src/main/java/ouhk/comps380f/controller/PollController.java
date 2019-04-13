@@ -124,10 +124,10 @@ public class PollController {
     public String addPollFrom(addPollForm form,
             ModelMap model, HttpServletRequest request) throws Exception {
         pollService.createPoll(form.getQuestion(), form.getResponse1(), form.getResponse2(), form.getResponse3(), form.getResponse4());
-        return "redirect:/lecture/poll/list";
+        return "redirect:/lecture";
     }
 
-    @RequestMapping(value = "/poll/{poll_id}", method = RequestMethod.GET)
+    @RequestMapping(value = {"poll/{poll_id}","lecture/poll/{poll_id}"}, method = RequestMethod.GET)
     public ModelAndView createAnsForm(@PathVariable("poll_id") long poll_id, ModelMap model, HttpServletRequest request) {
         model.addAttribute("pollDatabase", pollService.getPoll(poll_id));
         model.addAttribute("pollAllCount", pollService.countAllByPollId(poll_id));
@@ -139,7 +139,7 @@ public class PollController {
         return new ModelAndView("viewPoll", "ansPollForm", new ansPollForm());
     }
 
-    @RequestMapping(value = "/poll/{poll_id}", method = RequestMethod.POST)
+    @RequestMapping(value = {"poll/{poll_id}","lecture/poll/{poll_id}"}, method = RequestMethod.POST)
     public String ansPoll(@PathVariable("poll_id") long poll_id, ansPollForm form,
             ModelMap model, HttpServletRequest request) throws Exception {
         pollService.ansPoll(poll_id, request.getUserPrincipal().getName(), form.getResponse());
@@ -149,7 +149,7 @@ public class PollController {
     @RequestMapping(value = "/poll/delete/{poll_id}", method = RequestMethod.GET)
     public String delPoll(@PathVariable("poll_id") long poll_id) throws Exception {
         pollService.delPoll(poll_id);
-        return "redirect:/lecture/poll/list";
+        return "redirect:/lecture/lecture/poll/"+poll_id;
     }
 
     //中文
@@ -159,7 +159,7 @@ public class PollController {
         return "zh_poll";
     }
 
-    @RequestMapping(value = "/poll/zh/{poll_id}", method = RequestMethod.GET)
+    @RequestMapping(value = {"zh/poll/{poll_id}","lecture/zh/poll/{poll_id}"}, method = RequestMethod.GET)
     public ModelAndView zh_createAnsForm(@PathVariable("poll_id") long poll_id, ModelMap model, HttpServletRequest request) {
         model.addAttribute("pollDatabase", pollService.getPoll(poll_id));
         model.addAttribute("pollAllCount", pollService.countAllByPollId(poll_id));
@@ -171,11 +171,11 @@ public class PollController {
         return new ModelAndView("zh_viewPoll", "ansPollForm", new ansPollForm());
     }
 
-    @RequestMapping(value = "/poll/zh/{poll_id}", method = RequestMethod.POST)
+    @RequestMapping(value = {"zh/poll/{poll_id}","lecture/zh/poll/{poll_id}"}, method = RequestMethod.POST)
     public String zh_ansPoll(@PathVariable("poll_id") long poll_id, ansPollForm form,
             ModelMap model, HttpServletRequest request) throws Exception {
         pollService.ansPoll(poll_id, request.getUserPrincipal().getName(), form.getResponse());
-        return "redirect:/lecture/poll/zh/{poll_id}";
+        return "redirect:/lecture/zh/poll/"+poll_id;
     }
 
     @RequestMapping(value = "poll/zh/list/addPoll", method = RequestMethod.GET)
@@ -187,12 +187,12 @@ public class PollController {
     public String zh_addPollFrom(addPollForm form,
             ModelMap model, HttpServletRequest request) throws Exception {
         pollService.createPoll(form.getQuestion(), form.getResponse1(), form.getResponse2(), form.getResponse3(), form.getResponse4());
-        return "redirect:/lecture/poll/zh/list";
+        return "redirect:/lecture/zh/list";
     }
 
     @RequestMapping(value = "/poll/zh/delete/{poll_id}", method = RequestMethod.GET)
     public String zh_delPoll(@PathVariable("poll_id") long poll_id) throws Exception {
         pollService.delPoll(poll_id);
-        return "redirect:/lecture/poll/zh/list";
+        return "redirect:/lecture/zh/list";
     }
 }

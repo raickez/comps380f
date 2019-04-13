@@ -60,7 +60,7 @@
                 <input type="submit" value="Submit" class="btn btn-success"/>
             </form:form>
             <br>
-            <form action="<c:url value="/lecture/poll/list" />" method="GET">
+            <form action="<c:url value="/lecture/list" />" method="GET">
                 <input type="submit" value="Cancel" class="btn btn-secondary"/>
             </form>
         </div>

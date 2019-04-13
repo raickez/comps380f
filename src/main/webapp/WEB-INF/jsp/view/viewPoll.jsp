@@ -73,7 +73,7 @@
                 <input type="submit" value="Submit" class="btn btn-success"/>
             </form:form>
             <br>
-            <a href="<c:url value="/lecture/poll/list" />">Return to poll page</a>
+            <a href="<c:url value="/lecture" />">Return to list lectures</a>
         </div>
     </body>
 </html>

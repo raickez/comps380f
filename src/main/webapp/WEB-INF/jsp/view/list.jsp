@@ -16,15 +16,15 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="<c:url value="/lecture/poll/list" />">Poll Page</a>
-                    </li>
                     <security:authorize access="hasRole('ADMIN')"> 
                         <li class="nav-item">
-                            <a class="nav-link" href="<c:url value="/user" />">Manage User Accounts</a>
+                            <a class="nav-link" href="<c:url value="/lecture/create" />">Add a Lecture</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<c:url value="/lecture/create" />">Add a Lecture</a>
+                            <a class="nav-link" href="<c:url value="/lecture/poll/list/addPoll" />">Add Poll</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<c:url value="/user" />">Manage User Accounts</a>
                         </li>
                     </security:authorize>
                     <li class="nav-item"><a class="nav-link" href="<c:url value="/lecture/zh/list" />">中文</a></li>
@@ -47,28 +47,54 @@
         </nav>
 
         <div class="container-fluid">
-            <c:choose>
-                <c:when test="${fn:length(lectureDatabase) == 0}">
-                    <i>There are no lectures in the system.</i>
-                </c:when>
-                <c:otherwise>
-                    <ul class="list-group list-group-flush">
-                        <c:forEach items="${lectureDatabase}" var="lecture">
-                            <li class="list-group-item">Lecture ${lecture.id}:
-                                <a href="<c:url value="/lecture/view/${lecture.id}" />">
-                                    <c:out value="${lecture.subject}" /></a>
-                                    <security:authorize access="isAuthenticated() and (hasRole('ADMIN') or
-                                                        principal.username=='${lecture.customerName}')">
-                                    [<a href="<c:url value="/lecture/edit/${lecture.id}" />" class="text-warning">Edit</a>]
-                                </security:authorize>
-                                <security:authorize access="isAuthenticated() and (hasRole('ADMIN'))">            
-                                    [<a href="<c:url value="/lecture/delete/${lecture.id}" />" class="text-danger">Delete</a>]
-                                </security:authorize>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </c:otherwise>
-            </c:choose>
-        </div>
+            <div class="row">
+                <div class="col col-lg-7">
+                    <h2>Lectures</h2>
+                    <c:choose>
+                        <c:when test="${fn:length(lectureDatabase) == 0}">
+                            <i>There are no lectures in the system.</i>
+                        </c:when>
+                        <c:otherwise>
+                            <ul class="list-group list-group-flush">
+                                <c:forEach items="${lectureDatabase}" var="lecture">
+                                    <li class="list-group-item">Lecture ${lecture.id}:
+                                        <a href="<c:url value="/lecture/view/${lecture.id}" />">
+                                            <c:out value="${lecture.subject}" /></a>
+                                            <security:authorize access="isAuthenticated() and (hasRole('ADMIN') or
+                                                                principal.username=='${lecture.customerName}')">
+                                            [<a href="<c:url value="/lecture/edit/${lecture.id}" />" class="text-warning">Edit</a>]
+                                        </security:authorize>
+                                        <security:authorize access="isAuthenticated() and (hasRole('ADMIN'))">            
+                                            [<a href="<c:url value="/lecture/delete/${lecture.id}" />" class="text-danger">Delete</a>]
+                                        </security:authorize>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+                <div class="col col-lg-5">
+                    <h2>Poll</h2>
+                    <c:choose>
+                        <c:when test="${fn:length(pollDatabase) == 0}">
+                            <i>There are no poll in the system.</i>
+                        </c:when>
+                        <c:otherwise>
+                            <ul class="list-group list-group-flush">
+                                <c:forEach items="${pollDatabase}" var="poll">
+                                    <li class="list-group-item">
+                                        Question #${poll.poll_id}:
+                                        <a href="<c:url value="lecture/poll/${poll.poll_id}" />">
+                                            <c:out value="${poll.question}" /></a>
+                                            <security:authorize access="hasRole('ADMIN')">            
+                                            [<a class="text-danger" href="<c:url value="/lecture/poll/delete/${poll.poll_id}" />">Delete</a>]
+                                        </security:authorize>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
     </body>
 </html>

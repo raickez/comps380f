@@ -17,7 +17,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link" href="<c:url value="/user/create" />">Create a User</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<c:url value="/user/create" />">Create/Edit User</a></li>
                     <li class="nav-item"><a class="nav-link" href="<c:url value="/lecture" />">Return to list lectures</a></li>
                 </ul>
                 <span class="navbar-text">
@@ -30,6 +30,7 @@
             </div>
         </nav>
 
+        <br>
         <div class="container">
             <c:choose>
                 <c:when test="${fn:length(lectureUsers) == 0}">

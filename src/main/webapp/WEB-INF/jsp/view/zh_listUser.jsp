@@ -17,7 +17,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link" href="<c:url value="/user/zh/create" />">新增用戶</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<c:url value="/user/zh/create" />">新增/修改 用戶</a></li>
                     <li class="nav-item"><a class="nav-link" href="<c:url value="/lecture/zh/list" />">返回主頁</a></li>
                 </ul>
                 <span class="navbar-text">
@@ -29,7 +29,7 @@
                 </span>
             </div>
         </nav>
-
+        <br>
         <div class="container">
             <c:choose>
                 <c:when test="${fn:length(lectureUsers) == 0}">

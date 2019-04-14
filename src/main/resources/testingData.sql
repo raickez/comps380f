@@ -26,3 +26,8 @@ INSERT INTO comment(username,lecture_id,comment) VALUES ('dan',1,'Hello Keith!')
 INSERT INTO poll(question,response1,response2,response3,response4) VALUES ('What date do you prefer for the midterm test?','1st Apr,2019','2nd Apr,2019','3rd Apr,2019','4th Apr,2019');
 INSERT INTO pollresponse(poll_id,username,response) VALUES (1,'dan','1st Apr,2019');
 INSERT INTO pollresponse(poll_id,username,response) VALUES (1,'oliver','2nd Apr,2019');
+
+INSERT INTO poll(question,response1,response2,response3,response4) VALUES ('Do you like my class?','Like','Dislike','No comment','Secret!');
+INSERT INTO pollresponse(poll_id,username,response) VALUES (2,'dan','Like');
+INSERT INTO pollresponse(poll_id,username,response) VALUES (2,'kevin','Like');
+INSERT INTO pollresponse(poll_id,username,response) VALUES (2,'oliver','Secret!');

@@ -31,3 +31,6 @@ INSERT INTO poll(question,response1,response2,response3,response4) VALUES ('Do y
 INSERT INTO pollresponse(poll_id,username,response) VALUES (2,'dan','Like');
 INSERT INTO pollresponse(poll_id,username,response) VALUES (2,'kevin','Like');
 INSERT INTO pollresponse(poll_id,username,response) VALUES (2,'oliver','Secret!');
+
+INSERT INTO pollcomment(username,poll_id,comment) VALUES ('dan',1,'No midterm please!');
+INSERT INTO pollcomment(username,poll_id,comment) VALUES ('oliver',1,'I do not like midterm!');

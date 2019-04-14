@@ -34,3 +34,4 @@ INSERT INTO pollresponse(poll_id,username,response) VALUES (2,'oliver','Secret!'
 
 INSERT INTO pollcomment(username,poll_id,comment) VALUES ('dan',1,'No midterm please!');
 INSERT INTO pollcomment(username,poll_id,comment) VALUES ('oliver',1,'I do not like midterm!');
+INSERT INTO pollcomment(username,poll_id,comment) VALUES ('keith',1,'Take it easy!');

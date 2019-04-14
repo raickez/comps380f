@@ -74,7 +74,7 @@
                                 <tr>
                                     <td><c:out value="${entry.username}" /></td>
                                     <td><c:out value="${entry.comment}" />
-                                        <security:authorize access="hasRole('ADMIN') or principal.username=='${entry.username}'">
+                                        <security:authorize access="hasRole('ADMIN')">
                                             [<a href="<c:url value="deleteComment/${lectureId}/${entry.id}" />" class="text-danger">Delete</a>]
                                         </security:authorize></td>
                                 </tr>

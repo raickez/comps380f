@@ -87,7 +87,7 @@
                                         <a href="<c:url value="poll/${poll.poll_id}" />">
                                             <c:out value="${poll.question}" /></a>
                                             <security:authorize access="hasRole('ADMIN')">            
-                                            [<a class="text-danger" href="<c:url value="/lecture/poll/zh/delete/${poll.poll_id}" />">刪除</a>]
+                                            [<a class="text-danger" href="<c:url value="/lecture/zh/poll/delete/${poll.poll_id}" />">刪除</a>]
                                         </security:authorize>
                                     </li>
                                 </c:forEach>

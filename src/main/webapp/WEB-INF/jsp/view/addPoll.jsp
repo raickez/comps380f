@@ -51,11 +51,11 @@
                 </div>
                 <div class="form-group">
                     <form:label path="response3">Answer3:</form:label><br>
-                    <form:textarea path="response3" rows="2" cols="50" class="form-control"/>
+                    <form:textarea path="response3" rows="2" cols="50" class="form-control" required="required"/>
                 </div>
                 <div class="form-group">
                     <form:label path="response4">Answer4:</form:label><br>
-                    <form:textarea path="response4" rows="2" cols="50" class="form-control"/>
+                    <form:textarea path="response4" rows="2" cols="50" class="form-control" required="required"/>
                 </div>
                 <input type="submit" value="Submit" class="btn btn-success"/>
             </form:form>

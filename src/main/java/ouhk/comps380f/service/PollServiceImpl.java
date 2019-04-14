@@ -4,9 +4,12 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ouhk.comps380f.dao.PollCommentRepository;
 import ouhk.comps380f.dao.PollRepository;
 import ouhk.comps380f.dao.PollResponseRepository;
+import ouhk.comps380f.exception.PollCommentNotFound;
 import ouhk.comps380f.model.Poll;
+import ouhk.comps380f.model.PollComment;
 import ouhk.comps380f.model.PollResponse;
 import ouhk.comps380f.exception.PollResponseNotFound;
 
@@ -15,6 +18,9 @@ public class PollServiceImpl implements PollService {
 
     @Resource
     private PollRepository pollRepo;
+
+    @Resource
+    private PollCommentRepository pollCommentRepo;
 
     @Resource
     private PollResponseRepository pollResponseRepo;
@@ -106,31 +112,46 @@ public class PollServiceImpl implements PollService {
         pollRepo.delete(deletedPoll);
     }
 
-    /*(@Override
-    @Transactional(rollbackFor = LectureNotFound.class)
-    public void updateLecture(long id, String subject,
-            String body, List<MultipartFile> attachments)
-            throws IOException, LectureNotFound {
-        Lecture updatedLecture = lectureRepo.findOne(id);
-        if (updatedLecture == null) {
-            throw new LectureNotFound();
-        }
+    @Override
+    @Transactional
+    public long createComment(String username, String cm,
+            long poll_id) throws Exception {
+        PollComment comment = new PollComment();
+        Poll poll = new Poll();
 
-        updatedLecture.setSubject(subject);
-        updatedLecture.setBody(body);
+        comment.setUsername(username);
+        comment.setComment(cm);
+        poll.setPoll_id(poll_id);
+        comment.setPoll_id(poll_id);
+        comment.setPoll(poll);
 
-        for (MultipartFile filePart : attachments) {
-            Attachment attachment = new Attachment();
-            attachment.setName(filePart.getOriginalFilename());
-            attachment.setMimeContentType(filePart.getContentType());
-            attachment.setContents(filePart.getBytes());
-            attachment.setLecture(updatedLecture);
-            if (attachment.getName() != null && attachment.getName().length() > 0
-                    && attachment.getContents() != null
-                    && attachment.getContents().length > 0) {
-                updatedLecture.getAttachments().add(attachment);
-            }
+        PollComment savedComment = pollCommentRepo.save(comment);
+        return savedComment.getId();
+    }
+
+    @Override
+    @Transactional
+    public List<PollComment> getComment(long poll_id) {
+        return pollCommentRepo.findAllPollCommentByPollId(poll_id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = PollCommentNotFound.class)
+    public void delComment(long id) throws PollCommentNotFound {
+        PollComment deletedComment = pollCommentRepo.findOne(id);
+        if (deletedComment == null) {
+            throw new PollCommentNotFound();
         }
-        lectureRepo.save(updatedLecture);
-    }*/
+        pollCommentRepo.delete(deletedComment);
+    }
+
+    @Override
+    @Transactional(rollbackFor = PollCommentNotFound.class)
+    public void delAllComment(long pollId) throws PollCommentNotFound {
+        List<PollComment> deletedAllComment = pollCommentRepo.findAllPollCommentByPollId(pollId);
+        if (deletedAllComment == null) {
+            throw new PollCommentNotFound();
+        }
+        pollCommentRepo.delete(deletedAllComment);
+    }
 }

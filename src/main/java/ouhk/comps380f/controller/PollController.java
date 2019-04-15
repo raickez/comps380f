@@ -273,7 +273,7 @@ public class PollController {
         return "redirect:/lecture/lecture/zh/poll/" + pollId;
     }
 
-    @RequestMapping(value = {"/lecture/zh/poll/deleteComment/{pollId}/{Id}", "poll/deleteComment/{pollId}/{Id}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/lecture/zh/poll/deleteComment/{pollId}/{Id}", "zh/poll/deleteComment/{pollId}/{Id}"}, method = RequestMethod.GET)
     public View zh_delComment(@PathVariable("Id") long Id, @PathVariable("pollId") long poll_id)
             throws PollCommentNotFound {
         pollService.delComment(Id);
